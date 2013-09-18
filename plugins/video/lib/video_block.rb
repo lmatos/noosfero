@@ -1,8 +1,8 @@
 class VideoBlock < Block
 
   settings_items :url, :type => :string, :default => ""
-  settings_items :width, :type => :integer, :default => 536
-  settings_items :height, :type => :integer, :default => 360
+  settings_items :width, :type => :integer, :default => 400
+  settings_items :height, :type => :integer, :default => 315
 
   def is_youtube?
     valid_url = url.match(/.*(youtube.com.*v=[[:alnum:]]*|youtu.be\/[[:alnum:]]*).*/) ? true : false
@@ -19,7 +19,7 @@ class VideoBlock < Block
     (valid_url and valid_id) ? true : false
   end
 
-  def is_video_file? 
+  def is_video_file?
     url.match(/.*(mp4|ogg|ogv|webm)$/) ? true : false
   end
 
@@ -60,12 +60,12 @@ class VideoBlock < Block
     return nil unless is_youtube?
     youtube_match = url.match('v=([[:alnum:]]*)')
     youtube_match ||= url.match('youtu.be\/([[:alnum:]]*)')
-    youtube_match[1] unless youtube_match.nil? 
+    youtube_match[1] unless youtube_match.nil?
   end
   
   def extract_vimeo_id
     return nil unless is_vimeo?
     vimeo_match = url.match('([[:digit:]]*)$')
-    vimeo_match[1] unless vimeo_match.nil? 
+    vimeo_match[1] unless vimeo_match.nil?
   end
 end

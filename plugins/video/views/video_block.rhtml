@@ -1,6 +1,9 @@
+<% unless block.title.empty? %>
 <h3 class="block-title">
   <span><%=block.title%></span>
 </h3>
+<% end %>
+
 <div class="video-block-data">
   <% if block.is_youtube? %>
     <%= render :partial => 'box_organizer/iframe_video_block.rhtml', :locals => { :url => block.format_embed_video_url_for_youtube, :width => block.width, :height => block.height }%>
@@ -11,5 +14,4 @@
   <% else %>
     <%= "<span class='alert-block'>"+_("Cadastre uma nova URL (Vimeo, Youtube)")+"</span>" %>
   <% end %>
-
 </div>
