@@ -3,20 +3,15 @@ class VideoBlock < Block
   settings_items :url, :type => :string, :default => ""
   settings_items :width, :type => :integer, :default => 400
   settings_items :height, :type => :integer, :default => 315
-  
-  def is_youtube? 
-    false
-
-    if url.include?("youtube.com")
+ 
+  def is_valid_source?
+    
+    if url.match(/.*youtu(.be|be.com).*v=[[:alnum:]].*/)
       true
-    end
-  end
-
-  def is_vimeo? 
-    false
-
-    if url.include?("vimeo.com")
+    elsif url.match(/^(http[s]?:\/\/)?(www.)?(vimeo.com|player.vimeo.com\/video)\/[[:digit:]].*/)
       true
+    else
+      false
     end
   end
 
@@ -49,7 +44,7 @@ class VideoBlock < Block
     block = self
 
     lambda do
-      render :file => 'blocks/video_block', :locals => { :block => block }
+      render :file => 'video_block', :locals => { :block => block }
     end
   end
 
