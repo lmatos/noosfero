@@ -110,7 +110,11 @@ module DatesHelper
     elsif opts[:previous]
       date = date << 1
     end
-    _('%{month} %{year}') % { :year => date.year, :month => month_name(date.month.to_i) }
+    if opts[:only_month]
+      _('%{month}') % {:month => month_name(date.month.to_i) }
+    else
+      _('%{month} %{year}') % { :year => date.year, :month => month_name(date.month.to_i) }
+    end
   end
 
   def build_date(year, month, day = 1)
