@@ -9,7 +9,7 @@
   <% elsif block.is_video_file? %>
     <%= render :partial => 'html5_video_block', :locals => { :url => block.url, :width => block.width, :height => block.height }%>
   <% else %>
-    <%= "<span class='alert-block'> Cadastre uma nova URL (Vimeo, Youtube)</span>" %>
+    <%= "<span class='alert-block'>"+_("Insert a new URL(Vimeo, Youtube)")+"</span>" %>
   <% end %>
 
 </div>

@@ -1,0 +1,1 @@
+../../plugins/video/test/features/add_video_block.feature
