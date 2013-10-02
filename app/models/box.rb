@@ -37,8 +37,7 @@ class Box < ActiveRecord::Base
       RawHTMLBlock,
       RecentDocumentsBlock,
       SellersSearchBlock,
-      TagsBlock,
-      VideoBlock ]
+      TagsBlock ]
   end
 
   def self.acceptable_side_blocks
