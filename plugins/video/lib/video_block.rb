@@ -1,8 +1,8 @@
 class VideoBlock < Block
 
   settings_items :url, :type => :string, :default => ""
-  settings_items :width, :type => :integer, :default => 400
-  settings_items :height, :type => :integer, :default => 315
+  settings_items :width, :type => :integer, :default => 536
+  settings_items :height, :type => :integer, :default => 360
 
   def is_youtube?
     valid_url = url.match(/.*(youtube.com.*v=[[:alnum:]]*|youtu.be\/[[:alnum:]]*).*/) ? true : false
