@@ -12,6 +12,11 @@ class ProfileListBlock < Block
     owner.profiles
   end
 
+  # override in subclasses!
+  def options
+    ""
+  end
+
   def profile_list
     result = nil
     visible_profiles = profiles.visible.includes([:image,:domains,:preferred_domain,:environment])
