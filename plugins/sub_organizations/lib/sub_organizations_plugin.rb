@@ -23,6 +23,10 @@ class SubOrganizationsPlugin < Noosfero::Plugin
     Person.members_of(children) if children.present?
   end
 
+  def person_memberships(person)
+    SubOrganizationsPlugin::Relation.parents(*Profile.memberships_of(person))
+  end
+
   def has_permission?(person, permission, target)
     if !target.kind_of?(Environment) && target.organization?
       SubOrganizationsPlugin::Relation.parents(target).map do |parent|
