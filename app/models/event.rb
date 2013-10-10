@@ -35,7 +35,10 @@ named_scope :by_day, lambda { |date|
 
 named_scope :by_month, lambda { |date|
     date_temp = date.strftime("%Y-%m")+"%"
-    {:conditions => ['start_date LIKE :date', {:date => date_temp}]}
+    {
+      :conditions => ['start_date LIKE :date', {:date => date_temp}],
+      :order =>'start_date DESC'
+    }
   }
 
   include WhiteListFilter
