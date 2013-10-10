@@ -12,18 +12,13 @@ module EventsHelper
   end
 
   def display_event_in_listing(article)
-    
-    content_tag( 'tr',
+    content_tag( 'tr',         
       content_tag('td',
-        show_date(article.start_date,true) + '<br>' +
-        link_to(article.name, article.url) + '<br>' +
-        (article.address.include?('#') ? 'Indefined place' : 'Place: ' + article.address)),:class => 'agenda-item')
-    
-    
-    #content_tag( 'tr', content_tag('td', show_date(article.start_date,true)), :class => 'agenda-date') +
-        
-    #content_tag( 'tr', content_tag('td', link_to(article.name, article.url, :class => icon_for_article(article))), :class => 'agenda-item') + 
-    #content_tag( 'tr', content_tag('td', article.address.include?('#') ? 'Indefined place' : 'Place: ' + article.address) , :class => 'agenda-local')
+        content_tag ('div',show_date(article.start_date,true), :class=> 'event-date') +
+        content_tag ('div',link_to(article.name, article.url), :class => 'event-title') +
+        content_tag ('div', (article.address.nil? or article.address == '')  ? '' : (_('Place: ') + article.address),:class => 'event-place')
+      )
+    )
   end
 
   def populate_calendar(selected_date, events)

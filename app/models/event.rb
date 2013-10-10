@@ -33,11 +33,19 @@ named_scope :by_day, lambda { |date|
     {:conditions => ['start_date = :date AND end_date IS NULL OR (start_date <= :date AND end_date >= :date)', {:date => date}]}
   }  
 
+named_scope :next_events_from_month, lambda { |date|
+    date_temp = date.strftime("%Y-%m-%d")+"%"
+    {
+      :conditions => ['start_date >= :date', {:date => date_temp}],
+      :limit => 10
+    }
+  }
+
 named_scope :by_month, lambda { |date|
     date_temp = date.strftime("%Y-%m")+"%"
     {
       :conditions => ['start_date LIKE :date', {:date => date_temp}],
-      :order =>'start_date DESC'
+      :limit => 10
     }
   }
 

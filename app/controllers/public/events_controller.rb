@@ -11,7 +11,7 @@ class EventsController < PublicController
 
     if params[:day] || !params[:year] && !params[:month]
       @selected_month = date
-      @events_of_the_month = profile.events.by_month(@selected_month)
+      @events_of_the_month = profile.events.next_events_from_month(@selected_month)
    end
 
    if params[:month] && params[:year]
@@ -21,7 +21,7 @@ class EventsController < PublicController
 
    if params[:month] && params[:year] && params[:day]
       @selected_month = date
-      @events_of_the_month = profile.events.by_month(@selected_month)
+      @events_of_the_month = profile.events.by_day(@selected_month)
    end
 
 
