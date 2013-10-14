@@ -19,8 +19,8 @@ class MembersBlock < ProfileListBlock
     show_button_block = show_join_leave_button
 
     lambda do
-      data = []
-	    data.push(link_to _('View all'), :profile => profile.identifier, :controller => 'profile', :action => 'members')
+         data = []
+	       data.push(link_to _('View all'), :profile => profile.identifier, :controller => 'profile', :action => 'members')
 
 		  if show_button_block     
 		    if logged_in?
@@ -68,6 +68,11 @@ class MembersBlock < ProfileListBlock
     data
   end
 
+  # DELETE-ME, apenas para testar check_join_leave_button? via console
+  def teste_check
+    check_join_leave_button?
+  end
+
   private
     def check_join_leave_button?
       if show_join_leave_button
@@ -84,5 +89,4 @@ class MembersBlock < ProfileListBlock
         "1"
       end
     end
-
 end
