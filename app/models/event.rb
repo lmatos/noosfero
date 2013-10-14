@@ -30,22 +30,27 @@ class Event < Article
   end
 
 named_scope :by_day, lambda { |date| 
-    {:conditions => ['start_date = :date AND end_date IS NULL OR (start_date <= :date AND end_date >= :date)', {:date => date}]}
+    {
+      :conditions => ['start_date = :date AND end_date IS NULL OR (start_date <= :date AND end_date >= :date)', {:date => date}],
+      :order => 'start_date ASC'
+    }
   }  
 
 named_scope :next_events_from_month, lambda { |date|
-    date_temp = date.strftime("%Y-%m-%d")+"%"
+    date_temp = date.strftime("%Y-%m-%d")
     {
-      :conditions => ['start_date >= :date', {:date => date_temp}],
-      :limit => 10
+      :conditions => ["start_date >= ?","#{date_temp}"],
+      :limit => 10,
+      :order => 'start_date ASC'
     }
   }
 
 named_scope :by_month, lambda { |date|
-    date_temp = date.strftime("%Y-%m")+"%"
+    date_temp = date.strftime("%Y-%m")
     {
-      :conditions => ['start_date LIKE :date', {:date => date_temp}],
-      :limit => 10
+      :conditions => ["EXTRACT(YEAR FROM start_date) = ? AND EXTRACT(MONTH FROM start_date) = ?",date.year,date.month],
+      :limit => 10,
+      :order => 'start_date ASC'
     }
   }
 
