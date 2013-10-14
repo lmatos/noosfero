@@ -18,7 +18,7 @@ class MembersBlock < ProfileListBlock
     profile = self.owner
     lambda do
          data = []
-	 data.push(link_to _('View all'), :profile => profile.identifier, :controller => 'profile', :action => 'members')
+	       data.push(link_to _('View all'), :profile => profile.identifier, :controller => 'profile', :action => 'members')
 
          if logged_in?
            if profile.members.include?(user)
@@ -56,11 +56,34 @@ class MembersBlock < ProfileListBlock
   end
 
   def options
-    data = []
-    #data.push(checkbox())
-    #data.push(_("show join leave button"))
-     
+    data = ["<br />"]
+    data.push "<input type='checkbox' value='1' name='block[show_join_leave_button]' id='block_show_join_leave_button' "+check_join_leave_button?+" />"
+    data.push "<label for='block_show_join_leave_button'>"+_("show join leave button")+"</labe>"
+    data.push "<input type='hidden' value='"+save_join_leave_button?+"' name='block[show_join_leave_button]'/>"
+
+    data
   end
 
+  # DELETE-ME, apenas para testar check_join_leave_button? via console
+  def teste_check
+    check_join_leave_button?
+  end
+
+  private
+    def check_join_leave_button?
+      if show_join_leave_button
+        "checked='checked'"
+      else
+        ""
+      end
+    end
+
+    def save_join_leave_button?
+      if show_join_leave_button
+        "0"
+      else
+        "1"
+      end
+    end
 
 end
