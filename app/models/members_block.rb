@@ -14,14 +14,17 @@ class MembersBlock < ProfileListBlock
     _('This block presents the members of a collective.')
   end
 
+
   def footer
     profile = self.owner
+
     show_button_block = show_join_leave_button
+
+ 
     lambda do
          data = []
 	       data.push(link_to _('View all'), :profile => profile.identifier, :controller => 'profile', :action => 'members')
 
-         
 		if show_button_block     
 		  if logged_in?
             if profile.members.include?(user)
@@ -48,6 +51,7 @@ class MembersBlock < ProfileListBlock
               :class => 'button with-text icon-add',
               :title => _('Join this community'),
               :style => 'position: relative;'))
+      
         end
     end
        
