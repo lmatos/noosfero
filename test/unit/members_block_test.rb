@@ -75,20 +75,15 @@ class MembersBlockTest < ActiveSupport::TestCase
     assert_equal "0", block.send(:save_join_leave_button?)
   end
 
-  #FIX-ME
-  #should "footer has only 'View all' if show_join_leave_button is false" do
-  #  block = MembersBlock.new
-  #  block.show_join_leave_button = false
+  should "footer has only 'View all' if show_join_leave_button is false" do
+    block = MembersBlock.new
+    env = fast_create(Environment)
 
-  #  env = mock
-  #  user = fast_create(User)
-  #  community = fast_create(Community)
+    block.stubs(:owner).returns(env)
+    block.stubs(:show_join_leave_button).returns(true)
+    footer = block.footer.call
 
-  #  block.stubs(:owner).returns(community)
-  #  block.stubs(:user).returns(user)
-  #  block.stubs(:environment).returns(env)
-
-  #  footer = block.footer.call
-  #  assert !footer.include?("Join")
-  #end
+    assert !footer.include?("Join")
+    #assert !footer.include?("Leave")
+  end
 end
