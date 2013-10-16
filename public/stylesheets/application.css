@@ -3587,6 +3587,11 @@ div#article-parent {
 h1#agenda-title {
   position: relative;
 }
+#agenda .agenda-calendar .button.icon-next.with-text {
+  background-position: right;
+  padding-left: 3px;
+  padding-right: 20px;
+}
 #agenda-toolbar a.button {
   border: none;
   opacity: 0.6;
