@@ -1,3 +1,5 @@
+require_dependency File.dirname(__FILE__) + '/related_organizations_block'
+
 class SubOrganizationsPlugin < Noosfero::Plugin
 
   def self.plugin_name
@@ -43,5 +45,11 @@ class SubOrganizationsPlugin < Noosfero::Plugin
   def enterprise_registration_hidden_fields
     parent_to_be = context.params[:sub_organizations_plugin_parent_to_be]
     {'sub_organizations_plugin_parent_to_be' => parent_to_be} if parent_to_be.present?
+  end
+
+  def self.extra_blocks
+    {
+      RelatedOrganizationsBlock => {:type => [Enterprise, Community], :position => ['1', '2', '3']}
+    }
   end
 end
