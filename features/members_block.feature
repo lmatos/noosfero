@@ -43,3 +43,4 @@ Feature:
     When I go to sample-community's homepage
     And I follow "Join" within ".members-block"
     Then I should see "Username / Email"
+    
