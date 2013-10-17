@@ -1,0 +1,10 @@
+.recent-content-cover {
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  max-height: 60px;
+}
+
+.recent-content-cover img{
+  width: 100%;
+}

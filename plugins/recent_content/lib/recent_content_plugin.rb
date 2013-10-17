@@ -12,12 +12,16 @@ class RecentContentPlugin < Noosfero::Plugin
 
   def self.extra_blocks
     {
-      RecentContentBlock => {}
+      RecentContentBlock => {:position => ['1','2','3'] }
     }
   end
 
   def self.has_admin_url?
     false
+  end
+  
+  def stylesheet?
+    true
   end
 
 end
