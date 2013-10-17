@@ -1,0 +1,44 @@
+<div class="recent_content_plugin">
+<%=
+labelled_form_field(_('Choose which content should be displayed:'),
+  select_tag(
+      'block[selected_folder]',
+      options_for_select(@block.parents.map {|node| [node.title, node.id]}, @block.selected_folder)
+  )
+)
+
+%>
+</div>
+<div>
+<%=
+labelled_form_field(_('Choose how the content should be displayed:'),
+  select_tag(
+      'block[presentation_mode]',
+      options_for_select(
+         {
+            _("Title only") => "title_only",
+            _("Title and abstract") => "title_and_abstract",
+            _("Full content") => "full_content"
+         },
+          @block.presentation_mode
+      )
+  )
+)
+%>
+</div>
+<div>
+<%=
+labelled_form_field(
+  _('Choose how many items will be displayed:'),
+  text_field_tag ('block[total_items]',
+    @block.total_items,
+    :size => 3,
+    :maxlength => 5)
+)
+%>
+</div>
+<div>
+<%=
+  labelled_check_box _('Display blog cover image'), 'block[show_blog_picture]', true, @block.show_blog_picture
+%>
+</div>
