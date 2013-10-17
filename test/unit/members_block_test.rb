@@ -76,14 +76,37 @@ class MembersBlockTest < ActiveSupport::TestCase
   end
 
   should "footer has only 'View all' if show_join_leave_button is false" do
-    block = MembersBlock.new
     env = fast_create(Environment)
+    profile = create_user('mytestuser').person
+    block = MembersBlock.new
+    block.box = profile.boxes.first
+    block.save!
 
-    block.stubs(:owner).returns(env)
     block.stubs(:show_join_leave_button).returns(true)
-    footer = block.footer.call
+    self.stubs(:logged_in?).returns(true)
+    self.stubs(:user).returns(profile)
+    self.stubs(:button).returns(
+              :class => 'leave-community',
+              :title => _("Leave community"),
+              :style => 'position: relative;')
+    #self.stubs(:button).with(:delete).returns(
+    #          :class => 'leave-community',
+    #          :title => _("Leave community"),
+    #          :style => 'position: relative;')
+    #self.stubs(:button).with(:add).returns(
+    #          :class => 'join-community',
+    #          :title => _("Join community"),
+    #          :style => 'position: relative; display: none;')
+    
+    self.stubs(:content_tag).returns('')
 
-    assert !footer.include?("Join")
-    #assert !footer.include?("Leave")
+    expects(:_).with('Leave community').returns('Leave community')
+    expects(:_).with('Join community').returns('Join community')
+
+    expects(:_).with('View all').returns('View all')
+    expects(:link_to).with('View all' , :profile => 'mytestuser', :controller => 'profile', :action => 'members').returns('link-to-members')
+    
+    assert_equal 'link-to-members', instance_eval(&block.footer)[0]
+    # assert_nil instance_eval(&block.footer)[1]
   end
 end
