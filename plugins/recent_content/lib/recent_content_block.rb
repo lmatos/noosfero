@@ -82,9 +82,10 @@ class RecentContentBlock < Block
   protected
   
   def render_title_only(itens)
+    content_tag('div',
       content_tag('ul', itens.map {|item|  
         content_tag('li', content_tag('div', link_to(h(item.title), item.url), :class => 'title'))
-      }.join("\n"))
+      }.join("\n")), :class => 'recent-content-title')
   end
   
   include DatesHelper
@@ -95,7 +96,7 @@ class RecentContentBlock < Block
       content_tag("span",show_date(item.published_at, true),:class=>'post-date') +
       content_tag("div",item.lead, :class => 'headline') +
       content_tag("p",link_to(_('Read more'), item.url), :class =>'highlighted-news-read-more')
-    }.join("\n"))
+    }.join("\n"),:class => 'recent-content-abstract')
   end
   
   def render_full_content(itens)
@@ -104,7 +105,7 @@ class RecentContentBlock < Block
       content_tag("span",show_date(item.published_at, true),:class=>'post-date') +
       content_tag("div",item.body, :class => 'headline') +
       content_tag("p",link_to(_('Read more'), item.url), :class =>'highlighted-news-read-more')
-    }.join("\n"))
+    }.join("\n"), :class => 'recent-content-full')
   end
 
 end
