@@ -50,7 +50,7 @@ class RecentContentBlock < Block
     if !self.selected_folder.nil?
       root = Blog.find(self.selected_folder)
       text = block_title((title.nil? or title.empty?) ? _("Recent content") : title) +
-             (self.show_blog_picture and  !root.image.nil? ?
+             ((self.show_blog_picture and  !root.image.nil?) ?
               content_tag('div',image_tag(root.image.public_filename(:big), :alt=>title),:class=>"recent-content-cover") :
              '')
       children = articles_of_folder(root,self.total_itens) 
@@ -61,16 +61,20 @@ class RecentContentBlock < Block
         text + render_title_and_abstract(children)
       else
         text + render_full_content(children)
-      end      
+      end 
+    else
+      content_tag('span',_('This is the recent content block. Please edit it to show the content you want.'),:class=>'alert-block')
     end
   end
 
   def footer
     return nil unless self.owner.is_a?(Profile)
+    return nil if self.selected_folder.nil?
 
     profile = self.owner
+    folder = Blog.find(self.selected_folder)
     lambda do
-      link_to _('View All'), :profile => profile.identifier, :controller => 'content_viewer', :action => 'view_page', :page => 'blog'
+      link_to _('View All'), :profile => profile.identifier, :controller => 'content_viewer', :action => 'view_page', :page => folder.path
     end
   end
 
@@ -82,9 +86,10 @@ class RecentContentBlock < Block
   protected
   
   def render_title_only(itens)
+    content_tag('div',
       content_tag('ul', itens.map {|item|  
-        content_tag('li', content_tag('div', link_to(h(item.title), item.url), :class => 'title'))
-      }.join("\n"))
+        content_tag('li',link_to(h(item.title), item.url))
+      }.join("\n")), :class => 'recent-content-title')
   end
   
   include DatesHelper
@@ -95,7 +100,7 @@ class RecentContentBlock < Block
       content_tag("span",show_date(item.published_at, true),:class=>'post-date') +
       content_tag("div",item.lead, :class => 'headline') +
       content_tag("p",link_to(_('Read more'), item.url), :class =>'highlighted-news-read-more')
-    }.join("\n"))
+    }.join("\n"),:class => 'recent-content-abstract')
   end
   
   def render_full_content(itens)
@@ -104,7 +109,7 @@ class RecentContentBlock < Block
       content_tag("span",show_date(item.published_at, true),:class=>'post-date') +
       content_tag("div",item.body, :class => 'headline') +
       content_tag("p",link_to(_('Read more'), item.url), :class =>'highlighted-news-read-more')
-    }.join("\n"))
+    }.join("\n"), :class => 'recent-content-full')
   end
 
 end
