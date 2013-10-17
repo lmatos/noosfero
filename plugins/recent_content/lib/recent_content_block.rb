@@ -8,7 +8,7 @@ class RecentContentBlock < Block
   VALID_CONTENT = ['RawHTMLArticle', 'TextArticle', 'TextileArticle', 'TinyMceArticle']
   
   def self.description
-    _('Display your contents')
+    _('Recent content')
   end
 
   def help
@@ -50,7 +50,9 @@ class RecentContentBlock < Block
     if !self.selected_folder.nil?
       root = Blog.find(self.selected_folder)
       text = block_title((title.nil? or title.empty?) ? _("Recent content") : title) +
-             ((self.show_blog_picture and  !root.image.nil?) ? image_tag(root.image(:big).public_filename(), :size=>'100x100', :alt=>title) : '')
+             (self.show_blog_picture and  !root.image.nil? ?
+              content_tag('div',image_tag(root.image.public_filename(:big), :alt=>title),:class=>"recent-content-cover") :
+             '')
       children = articles_of_folder(root,self.total_itens) 
       
       if mode?('title_only')
