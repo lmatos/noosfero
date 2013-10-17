@@ -38,9 +38,8 @@ Feature:
     And I follow "Manage my groups"
     Then I should not see "Sample Community"
 
-  @selenium
   Scenario: a not logged in user can log in by members block's button 
     Given I am not logged in
     When I go to sample-community's homepage
     And I follow "Join" within ".members-block"
-    Then I should not see "Username / Email"
+    Then I should see "Username / Email"
