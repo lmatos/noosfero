@@ -73,7 +73,7 @@ class Community < Organization
   end
 
   def blocks_to_expire_cache
-    [MembersBlock]
+    [MembersBlock] | plugins.dispatch(:extra_communities_blocks_to_expire_cache)
   end
 
   def each_member(offset=0)

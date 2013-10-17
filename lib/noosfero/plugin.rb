@@ -147,6 +147,10 @@ class Noosfero::Plugin
     blocks || []
   end
 
+  def extra_communities_block_to_expire_cache
+    nil
+  end
+
   def macros
     self.class.constants.map do |constant_name|
       self.class.const_get(constant_name)
@@ -491,6 +495,13 @@ class Noosfero::Plugin
   def self.extra_blocks
     {}
   end
+
+  # This hotspot adds additional blocks to the communities' blocks_to_expire_cache methods
+  # returns: list of blocks to be added
+  def extra_communities_blocks_to_expire_cache
+    []
+  end
+
 
   def method_missing(method, *args, &block)
     # This is a generic hotspot for all controllers on Noosfero.

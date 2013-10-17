@@ -4,13 +4,31 @@ class SubOrganizationsPluginProfileController < ProfileController
   before_filter :organizations_only
 
   def children
-    @organizations = SubOrganizationsPlugin::Relation.children(profile)
+    children = SubOrganizationsPlugin::Relation.children(profile)
+    @communities = children.communities
+    @enterprises = children.enterprises
+    @full = true
+
+    if !params[:type]
+      @communities = SubOrganizationsPlugin.limit(@communities)
+      @enterprises = SubOrganizationsPlugin.limit(@enterprises)
+      @full = false
+    else
+      @communities = @communities.paginate(:per_page => 12, :page => params[:npage])
+      @enterprises = @enterprises.paginate(:per_page => 12, :page => params[:npage]) 
+    end
 
     render 'related_organizations'
   end
 
   def parents
-    @organizations = SubOrganizationsPlugin::Relation.parents(profile)
+    parents = SubOrganizationsPlugin::Relation.parents(profile)
+
+    if params[:type]
+      @organizations = parents
+    else
+      @organizations = SubOrganizationsPlugin.limit(parents)
+    end
 
     render 'related_organizations'
   end

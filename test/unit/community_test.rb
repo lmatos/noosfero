@@ -375,4 +375,34 @@ class CommunityTest < ActiveSupport::TestCase
     assert_not_includes community.activities.map { |a| a.klass.constantize.find(a.id) }, article.activity
   end
 
+  should 'add extra blocks to expire cache from plugins' do
+    class Block1
+    end
+
+    class Block2
+    end
+
+    class Plugin1 < Noosfero::Plugin
+      def extra_communities_blocks_to_expire_cache
+        [Block1]
+      end
+    end
+
+    class Plugin2 < Noosfero::Plugin
+      def extra_communities_blocks_to_expire_cache
+        [Block2]
+      end
+    end
+
+    Environment.default.enable_plugin(Plugin1)
+    Environment.default.enable_plugin(Plugin2)
+
+    cmm1 = fast_create(Community)
+
+    blocks = cmm1.blocks_to_expire_cache
+
+    assert_includes blocks, Block1
+    assert_includes blocks, Block2
+  end
+
 end
