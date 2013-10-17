@@ -1,6 +1,8 @@
 class Blog < Folder
 
   acts_as_having_posts
+  acts_as_having_image
+  
   include PostsLimit
 
   #FIXME This should be used until there is a migration to fix all blogs that
