@@ -3,8 +3,15 @@
 <p>
 <%= __('Are you sure you want to add %s as your favorite enterprise?') % @favorite_enterprise.name %>
 </p>
+<div>
 
+</div>
 <% form_tag do %>
+  <% profile.communities.each do |community|%>
+    <% if community.admins.include? profile%>
+      <div><%= labelled_check_box(community.name, 'profile_data[teste]', "1", false) %></div>
+    <% end %>
+  <% end %>
   <%= hidden_field_tag(:confirmation, 1) %>
 
   <%= submit_button(:ok, __("Yes, I am sure"), :title => _("I want to add %s as a favorite enterprise") % @favorite_enterprise.name) %>

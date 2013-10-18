@@ -10,6 +10,8 @@ class Community < Organization
   settings_items :language
   settings_items :zip_code, :city, :state, :country
 
+  has_and_belongs_to_many :favorite_enterprises, :class_name => 'Enterprise', :join_table => 'favorite_enteprises_community'
+
   extend SetProfileRegionFromCityState::ClassMethods
   set_profile_region_from_city_state
 
