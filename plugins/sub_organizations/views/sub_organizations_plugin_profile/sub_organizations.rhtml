@@ -1,7 +1,0 @@
-<% if params[:type] != 'enterprise' %>
-  <%= render :partial => 'sub_organizations_plugin_profile/sub_organizations', :locals => {:organizations => @sub_communities, :organization_type => 'community'} %>
-<% end %>
-
-<% if params[:type] != 'community' %>
-  <%= render :partial => 'sub_organizations_plugin_profile/sub_organizations', :locals => {:organizations => @sub_enterprises, :organization_type => 'enterprise'} %>
-<% end %>
