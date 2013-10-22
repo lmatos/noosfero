@@ -284,6 +284,12 @@ class CmsController < MyProfileController
     render :text => article_list_to_json(results), :content_type => 'application/json'
   end
 
+  def search_allowed_users
+    puts "=" * 80, params.inspect, "=" *80
+    #article = Article.find(params[:article_id])    
+    render :text => prepare_to_token_input(Profile.find(64).members).to_json
+  end
+
   def media_upload
     files_uploaded = []
     parent = check_parent(params[:parent_id])

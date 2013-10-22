@@ -82,6 +82,10 @@ module FolderHelper
     )
   end
 
+  def prepare_to_token_input(array)
+    array.map { |object| {:id => object.id, :name => object.name} }
+  end
+
   def cms_label_for_new_children
     _('New article')
   end
