@@ -186,6 +186,47 @@ class EventTest < ActiveSupport::TestCase
 
     assert_equal [today_event], profile.events.by_day(today)
   end
+  
+  should 'list events by month' do
+    profile = fast_create(Profile)
+
+    today = Date.new(2013, 10, 6)
+    
+    last_month_event = Event.new(:name => 'Joao Birthday', :start_date => today - 1.month)
+    
+    current_month_event_1 = Event.new(:name => 'Maria Birthday', :start_date => today)
+    current_month_event_2 = Event.new(:name => 'Joana Birthday', :start_date => today - 1.day)
+    
+    next_month_event = Event.new(:name => 'Mane Birthday', :start_date => today + 1.month)
+
+    profile.events << [last_month_event, current_month_event_1, current_month_event_2, next_month_event]
+
+    month_events = profile.events.by_month(today)
+    
+    assert month_events.include?(current_month_event_1)
+    assert month_events.include?(current_month_event_2)
+    
+    assert !month_events.include?(last_month_event)
+    assert !month_events.include?(next_month_event)
+  end
+  
+  should 'event by month ordered by start date'do
+    profile = fast_create(Profile)
+
+    today = Date.new(2013, 10, 6)
+    
+    event_1 = Event.new(:name => 'Maria Birthday', :start_date => today + 1.day)
+    event_2 = Event.new(:name => 'Joana Birthday', :start_date => today - 1.day)
+    event_3 = Event.new(:name => 'Mane Birthday', :start_date => today)
+
+    profile.events << [event_1, event_2, event_3]
+
+    events = profile.events.by_month(today)
+    
+    assert_equal events[0], event_2
+    assert_equal events[1], event_3
+    assert_equal events[2], event_1
+  end
 
   should 'list events in a range' do
     profile = fast_create(Profile)
