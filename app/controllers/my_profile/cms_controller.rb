@@ -2,6 +2,8 @@ class CmsController < MyProfileController
 
   protect 'edit_profile', :profile, :only => [:set_home_page]
 
+  include FolderHelper
+
   def self.protect_if(*args)
     before_filter(*args) do |c|
       user, profile = c.send(:user), c.send(:profile)
@@ -124,7 +126,7 @@ class CmsController < MyProfileController
 
     @article.profile = profile
     @article.last_changed_by = user
-
+    @article.allowed_users = params[:q]
     translations if @article.translatable?
 
     continue = params[:continue]
@@ -285,9 +287,9 @@ class CmsController < MyProfileController
   end
 
   def search_allowed_users
-    puts "=" * 80, params.inspect, "=" *80
-    #article = Article.find(params[:article_id])    
-    render :text => prepare_to_token_input(Profile.find(64).members).to_json
+    arg = params[:q].downcase
+    result = profile.members.map{|m| m if m.name.downcase.include?(arg)}.compact
+    render :text => prepare_to_token_input(result).to_json
   end
 
   def media_upload
