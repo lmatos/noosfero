@@ -66,15 +66,15 @@ module FolderHelper
     content_tag('h4', _('Visibility')) +
     content_tag('div',
       content_tag('div',
-        radio_button(:article, :published, true) +
+        radio_button(:article, :visibility, 'public') +
           content_tag('label', _('Public (visible to other people)'), :for => 'article_published_true')
            ) +
       content_tag('div',
-        radio_button(:article, :published, false) +
+        radio_button(:article, :visibility, 'private') +
           content_tag('label', _('Private'), :for => 'article_published_false')
        ) +
       (@article.folder? and @profile.community? ? content_tag('div',
-        radio_button(:article, :published, false) +
+        radio_button(:article,  :visibility, 'restrict') +
           content_tag('label', _('Custom'), :for => 'article_published_custom', :id=>"label_custom")
        ): '') + 
     content_tag('div',

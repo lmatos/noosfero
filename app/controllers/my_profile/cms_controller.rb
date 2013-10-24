@@ -73,11 +73,16 @@ class CmsController < MyProfileController
     translations if @article.translatable?
     continue = params[:continue]
     
-    allowed = profile.members.map{|m| m if @article.allowed_users.include?(m.id)}.compact
-    @tokenized_children = prepare_to_token_input(allowed)
+    if !params[:q].nil?
+      @article.allowed_users = params[:q].split(/,/).map{|n| n.to_i}
+    end
     
-    @article.allowed_users = params[:q].nil? ? [] : params[:q].split(/,/).map{|n| n.to_i}
-
+    @tokenized_children = prepare_to_token_input(
+                            profile.members.map{|m| 
+                              m if @article.allowed_users.include?(m.id)
+                            }.compact
+                          )
+     
     refuse_blocks
     record_coming
     if request.post?
