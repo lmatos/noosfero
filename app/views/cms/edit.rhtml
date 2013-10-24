@@ -33,10 +33,11 @@
   <%= content_tag( 'small', _('Separate tags with commas') ) %>
 
   <div id='edit-article-options'>
-    <%= options_for_article(@article) %>
+    <%= options_for_article(@article,@profile) %>
   </div>
 
-<div id="text-input-search-allowed-users" style="display:none">
+<% if @article.folder? and @profile.community? %>
+<div id="text-input-search-allowed-users">
   <p>
     <%= _('Fill in the search field to find the users that should be added to the permission list to view this article:') %>
   </p>
@@ -46,6 +47,33 @@
       :hint_text => _('Type in a search term for a user'),
       :pre_populate => @tokenized_children}) %>
 </div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  (function($){
+    function show_hide_text_area() {
+      if( $($("input[name='article[published]']")[2]).attr('checked') )
+        $("#text-input-search-allowed-users").css('display', 'block');
+      else
+        $("#text-input-search-allowed-users").css('display', 'none');
+    }
+
+    show_hide_text_area();
+
+    // Check the custom radio button
+    $("#label_custom").click(function(){
+      $($("input[name='article[published]']")[2]).attr('checked', true);
+      show_hide_text_area();
+    });
+
+    // Hide / Show the text area
+    $("input[name='article[published]']").click(function(){
+      show_hide_text_area();
+    });
+  })(jQuery);
+});
+</script>
+<% end %>
 
   <% button_bar do %>
     <%= submit_button :save, _('Save') %>
@@ -66,27 +94,3 @@
 
 
 <br style='clear: both'/>
-
-<script type="text/javascript">
-jQuery(document).ready(function(){
-  (function($){
-    function show_hide_text_area() {
-      if( $($("input[name='article[published]']")[2]).attr('checked') )
-        $("#text-input-search-allowed-users").css('display', 'block');
-      else
-        $("#text-input-search-allowed-users").css('display', 'none');
-    }
-
-    // Check the custom radio button
-    $("#label_custom").click(function(){
-      $($("input[name='article[published]']")[2]).attr('checked', true);
-      show_hide_text_area();
-    });
-
-    // Hide / Show the text area
-    $("input[name='article[published]']").click(function(){
-      show_hide_text_area();
-    });
-  })(jQuery);
-});
-</script>

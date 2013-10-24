@@ -1,6 +1,6 @@
 module BlogHelper
 
-  def custom_options_for_article(article)
+  def custom_options_for_article(article,profile=nil)
     @article = article
     hidden_field_tag('article[published]', 1) +
     hidden_field_tag('article[accept_comments]', 0)

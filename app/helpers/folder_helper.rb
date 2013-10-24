@@ -1,7 +1,7 @@
 module FolderHelper
 
   include ShortFilename
-
+  
   def list_articles(articles, recursive = false)
     if !articles.blank?
       articles = articles.paginate(
@@ -60,8 +60,9 @@ module FolderHelper
     "icon-new icon-new%s" % klass.icon_name
   end
 
-  def custom_options_for_article(article)
+  def custom_options_for_article(article,profile)
     @article = article
+    @profile = profile
     content_tag('h4', _('Visibility')) +
     content_tag('div',
       content_tag('div',
@@ -72,14 +73,13 @@ module FolderHelper
         radio_button(:article, :published, false) +
           content_tag('label', _('Private'), :for => 'article_published_false')
        ) +
-      content_tag('div',
+      (@article.folder? and @profile.community? ? content_tag('div',
         radio_button(:article, :published, false) +
           content_tag('label', _('Custom'), :for => 'article_published_custom', :id=>"label_custom")
-       )
-     ) +
+       ): '') + 
     content_tag('div',
       hidden_field_tag('article[accept_comments]', 0)
-    )
+    ))
   end
 
   def prepare_to_token_input(array)

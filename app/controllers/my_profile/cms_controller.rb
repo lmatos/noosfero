@@ -62,6 +62,7 @@ class CmsController < MyProfileController
       :per_page => per_page,
       :page => params[:npage]
     )
+    
     render :action => 'view'
   end
 
@@ -71,6 +72,11 @@ class CmsController < MyProfileController
     @type = params[:type] || @article.class.to_s
     translations if @article.translatable?
     continue = params[:continue]
+    
+    allowed = profile.members.map{|m| m if @article.allowed_users.include?(m.id)}.compact
+    @tokenized_children = prepare_to_token_input(allowed)
+    
+    @article.allowed_users = params[:q].nil? ? [] : params[:q].split(/,/).map{|n| n.to_i}
 
     refuse_blocks
     record_coming
@@ -126,7 +132,7 @@ class CmsController < MyProfileController
 
     @article.profile = profile
     @article.last_changed_by = user
-    @article.allowed_users = params[:q]
+    @article.allowed_users = params[:q].nil? ? [] : params[:q].split(/,/).map{|n| n.to_i}
     translations if @article.translatable?
 
     continue = params[:continue]

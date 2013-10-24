@@ -1,6 +1,6 @@
 module ArticleHelper
 
-  def custom_options_for_article(article)
+  def custom_options_for_article(article,profile=nil)
     @article = article
     content_tag('h4', _('Visibility')) +
     content_tag('div',

@@ -22,9 +22,9 @@ module CmsHelper
 
   attr_reader :environment
 
-  def options_for_article(article)
+  def options_for_article(article,profile)
     article_helper = helper_for_article(article)
-    article_helper.custom_options_for_article(article)
+    article_helper.custom_options_for_article(article,profile)
   end
 
   def link_to_article(article)
