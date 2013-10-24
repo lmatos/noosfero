@@ -67,8 +67,6 @@ class Article < ActiveRecord::Base
   settings_items :allow_members_to_edit, :type => :boolean, :default => false
   settings_items :moderate_comments, :type => :boolean, :default => false
   settings_items :followers, :type => Array, :default => []
-  settings_items :allowed_users, :type => Array, :default => []
-  settings_items :visibility, :type => :string, :default => 'public'
 
   belongs_to :reference_article, :class_name => "Article", :foreign_key => 'reference_article_id'
 
@@ -474,20 +472,15 @@ class Article < ActiveRecord::Base
   end
 
   def display_to?(user = nil)
-    
-    if visibility == 'public'
+    if published?
       profile.display_info_to?(user)
-    elsif !user
-      false
     else
-      if visibility == 'private'
-        true
-      elsif allowed_users.include? (user.id)
-        profile.display_info_to?(user)
+      if !user
+        false
       else
         display_unpublished_article_to?(user)
       end
-    end    
+    end
   end
 
   def allow_post_content?(user = nil)

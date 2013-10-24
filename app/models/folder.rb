@@ -5,6 +5,8 @@ class Folder < Article
   end
 
   validate :not_belong_to_blog
+  settings_items :allowed_users, :type => Array, :default => []
+  settings_items :visibility, :type => :string, :default => 'public'
 
   def not_belong_to_blog
     errors.add(:parent, "A folder should not belong to a blog.") if parent && parent.blog?
@@ -62,4 +64,23 @@ class Folder < Article
     !self.has_posts? || self.gallery?
   end
 
+  
+  def display_to?(user = nil)
+    
+    if visibility == 'public'
+      profile.display_info_to?(user)
+    elsif !user
+      false
+    else
+      if visibility == 'private'
+        true
+      elsif allowed_users.include? (user.id) || user.id == @profile_id
+        profile.display_info_to?(user)
+      else
+        display_unpublished_article_to?(user)
+      end
+    end    
+  end
+
+  
 end

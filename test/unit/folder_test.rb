@@ -144,5 +144,75 @@ class FolderTest < ActiveSupport::TestCase
     folder = fast_create(Folder)
     assert folder.accept_uploads?
   end
+  
+    
+  should 'has a empty list of allowed_users by default' do
+    a = Folder.new
+    assert_equal [], a.allowed_users
+  end
+  
+  should 'has a public value for visibility by default' do
+    a = Folder.new
+    assert_equal 'public', a.visibility
+  end
+  
+  should 'user see private folder when is included in allowed_user list' do
+    community = fast_create(Community)
+    member = create_user.person
+
+    community.add_member(member)
+    a = Folder.new(:profile => community, :visibility => 'private', :allowed_users => member.id )
+    
+    assert a.display_to?(member)
+  
+  end
+  
+   should 'not see private folder when is not included in allowed_user list' do
+    community = fast_create(Community)
+    memberAllow = create_user.person
+    memberUnallow = create_user.person
+
+    community.add_member(memberAllow)
+    community.add_member(memberUnallow)
+    a = Folder.new(:profile => community, :visibility => 'private', :allowed_users => memberAllow.id )
+    
+    assert !a.display_unpublished_article_to?(memberUnallow) && a.display_to?(memberAllow)
+  
+  end
+  
+   should 'say that logged off user cannot see private folder' do
+    profile = fast_create(Profile, :name => 'test profile', :identifier => 'test_profile')
+    folder  = Folder.new(:name => 'test folder', :profile_id => profile.id, :visibility => 'private')
+
+    assert folder.display_unpublished_article_to?(nil)
+  end
+  
+   should 'not allow friends of private person see the folder' do
+    person = create_user('test_user').person
+    folder = Folder.create!(:name => 'test folder', :profile => person, :visibility => 'private')
+    friend = create_user('test_friend').person
+    person.add_friend(friend)
+    person.save!
+    friend.save!
+
+    assert !folder.display_unpublished_article_to?(friend)
+  end
+  
+  should 'say that member user can not see private folder' do
+    profile = fast_create(Profile, :name => 'test profile', :identifier => 'test_profile')
+    folder = Folder.create!(:name => 'test folder', :profile_id => profile.id, :visibility => 'private')
+    person = create_user('test_user').person
+    profile.affiliate(person, Profile::Roles.member(profile.environment.id))
+
+    assert folder.display_to?(person)
+  end
+  
+  should 'say that not member of profile cannot see private folder' do
+    profile = fast_create(Profile, :name => 'test profile', :identifier => 'test_profile')
+    folder = Folder.create!(:name => 'test folder', :profile_id => profile.id, :visibility => 'private')
+    person = create_user('test_user').person
+
+    assert !folder.display_unpublished_article_to?(person)
+  end  
 
 end
