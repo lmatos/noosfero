@@ -137,7 +137,6 @@ class CmsController < MyProfileController
 
     @article.profile = profile
     @article.last_changed_by = user
-    @article.allowed_users = params[:q].nil? ? [] : params[:q].split(/,/).map{|n| n.to_i}
     translations if @article.translatable?
 
     continue = params[:continue]

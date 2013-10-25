@@ -5,7 +5,6 @@ class Folder < Article
   end
 
   validate :not_belong_to_blog
-  settings_items :allowed_users, :type => Array, :default => []
   settings_items :visibility, :type => :string, :default => 'public'
 
   def not_belong_to_blog
@@ -73,8 +72,8 @@ class Folder < Article
       false
     else
       if visibility == 'private'
-        true
-      elsif allowed_users.include? (user.id) || user.id == @profile_id
+        display_unpublished_article_to?(user)
+      elsif allowed_users.include?(user.id) || user.id == @profile_id
         profile.display_info_to?(user)
       else
         display_unpublished_article_to?(user)

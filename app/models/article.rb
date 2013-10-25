@@ -67,6 +67,7 @@ class Article < ActiveRecord::Base
   settings_items :allow_members_to_edit, :type => :boolean, :default => false
   settings_items :moderate_comments, :type => :boolean, :default => false
   settings_items :followers, :type => Array, :default => []
+  settings_items :allowed_users, :type => Array, :default => []
 
   belongs_to :reference_article, :class_name => "Article", :foreign_key => 'reference_article_id'
 

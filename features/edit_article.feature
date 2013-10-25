@@ -21,6 +21,49 @@ Feature: edit article
     And I press "Save"
     And I go to joaosilva's control panel
     Then I should see "My Folder"
+  
+  @selenium
+  Scenario: denied folder access for a not allowed user
+    Given the following communities
+      | name           | identifier    | owner     |
+      | Free Software  | freesoftware  | joaosilva |
+    And the following users
+      | login | name        |
+      | mario | Mario Souto |
+      | maria | Maria Silva |
+    And "Mario Souto" is a member of "Free Software"
+    And "Maria Silva" is a member of "Free Software"
+    And I am on freesoftware's control panel
+    And I follow "Manage Content"
+    And I follow "New content"
+    When I follow "Folder"
+    And I fill in "Title" with "My Folder"
+    And I choose "article_visibility_restrict"
+    And I fill in "token-input-search-allowed-users" with "Maria Silva"
+    And I press "Save"
+    And I log off
+    And I am on freesoftware's sitemap
+    And I follow "My Folder"
+    Then I should see "Access denied"
+    
+  @selenium  
+  Scenario: create a folder with customized access
+    Given the following communities
+      | name           | identifier    | owner     |
+      | Free Software  | freesoftware  | joaosilva |
+    And the following users
+      | login | name        |
+      | mario | Mario Souto |
+      | maria | Maria Silva |
+    And "Mario Souto" is a member of "Free Software"
+    And "Maria Silva" is a member of "Free Software"
+    And I am on freesoftware's control panel
+    And I follow "Manage Content"
+    And I follow "New content"
+    When I follow "Folder"
+    And I fill in "Title" with "My Folder"
+    And I choose "article_visibility_restrict"
+    Then I should see "Fill in the search field to find the users that should be added to the permission list to view this article"
 
   Scenario: redirect to the created folder
     Given I am on joaosilva's control panel
@@ -40,6 +83,7 @@ Feature: edit article
     When I follow "Cancel" within ".main-block"
     Then I should be on joaosilva's cms
 
+  @selenium
   Scenario: display tag list field when creating event
     Given I am on joaosilva's control panel
     And I follow "Manage Content"

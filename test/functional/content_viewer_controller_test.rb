@@ -150,7 +150,7 @@ class ContentViewerControllerTest < ActionController::TestCase
     admin = fast_create(Person)
     community.add_member(admin)
 
-    folder = fast_create(Folder, :profile_id => community.id, :published => false)
+    folder = Folder.create!(:name => 'my_intranet', :profile_id => community.id, :visibility => 'private')
     community.add_member(profile)
     login_as(profile.identifier)
 
@@ -233,7 +233,7 @@ class ContentViewerControllerTest < ActionController::TestCase
 
   should 'not give access to private articles if logged off' do
     profile = Profile.create!(:name => 'test profile', :identifier => 'test_profile')
-    intranet = Folder.create!(:name => 'my_intranet', :profile => profile, :published => false)
+    intranet = Folder.create!(:name => 'my_intranet', :profile => profile, :visibility => 'private')
 
     get :view_page, :profile => 'test_profile', :page => [ 'my-intranet' ]
 
@@ -243,7 +243,7 @@ class ContentViewerControllerTest < ActionController::TestCase
   should 'not give access to private articles if logged in but not member' do
     login_as('testinguser')
     profile = Profile.create!(:name => 'test profile', :identifier => 'test_profile')
-    intranet = Folder.create!(:name => 'my_intranet', :profile => profile, :published => false)
+    intranet = Folder.create!(:name => 'my_intranet', :profile => profile, :visibility => 'private')
 
     get :view_page, :profile => 'test_profile', :page => [ 'my-intranet' ]
 
@@ -253,7 +253,7 @@ class ContentViewerControllerTest < ActionController::TestCase
   should 'not give access to private articles if logged in and only member' do
     person = create_user('test_user').person
     profile = Profile.create!(:name => 'test profile', :identifier => 'test_profile')
-    intranet = Folder.create!(:name => 'my_intranet', :profile => profile, :published => false)
+    intranet = Folder.create!(:name => 'my_intranet', :profile => profile, :visibility => 'private')
     profile.affiliate(person, Profile::Roles.member(profile.environment.id))
     login_as('test_user')
 

@@ -204,10 +204,10 @@ class FolderTest < ActiveSupport::TestCase
     person = create_user('test_user').person
     profile.affiliate(person, Profile::Roles.member(profile.environment.id))
 
-    assert folder.display_to?(person)
+    assert !folder.display_to?(person)
   end
   
-  should 'say that not member of profile cannot see private folder' do
+  should 'say that not member of profile can not see private folder' do
     profile = fast_create(Profile, :name => 'test profile', :identifier => 'test_profile')
     folder = Folder.create!(:name => 'test folder', :profile_id => profile.id, :visibility => 'private')
     person = create_user('test_user').person
