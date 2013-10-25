@@ -32,20 +32,6 @@ class EventsControllerTest < ActionController::TestCase
     assert_tag :tag => 'table', :attributes => {:class => /current-month/}, :descendant => {:tag => 'caption', :content => /#{month}/}
   end
 
-  should 'display calendar of previous month' do
-    get :events, :profile => profile.identifier
-
-    month = (Date.today << 1).strftime("%B %Y")
-    assert_tag :tag => 'table', :attributes => {:class => /previous-month/}, :descendant => {:tag => 'caption', :content => /#{month}/}
-  end
-
-  should 'display calendar of next month' do
-    get :events, :profile => profile.identifier
-
-    month = (Date.today >> 1).strftime("%B %Y")
-    assert_tag :tag => 'table', :attributes => {:class => /next-month/}, :descendant => {:tag => 'caption', :content => /#{month}/}
-  end
-
   should 'display links to previous and next month' do
     get :events, :profile => profile.identifier
 
