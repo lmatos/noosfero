@@ -4,13 +4,26 @@ class SubOrganizationsPluginProfileController < ProfileController
   before_filter :organizations_only
 
   def children
-    @organizations = SubOrganizationsPlugin::Relation.children(profile)
+    children = SubOrganizationsPlugin::Relation.children(profile)
+    @communities = children.communities
+    @enterprises = children.enterprises
+
+    unless params[:type]
+      @communities = SubOrganizationsPlugin.limit(@communities)
+      @enterprises = SubOrganizationsPlugin.limit(@enterprises)
+    end
 
     render 'related_organizations'
   end
 
   def parents
-    @organizations = SubOrganizationsPlugin::Relation.parents(profile)
+    parents = SubOrganizationsPlugin::Relation.parents(profile)
+
+    if params[:type]
+      @organizations = parents
+    else
+      @organizations = SubOrganizationsPlugin.limit(parents)
+    end
 
     render 'related_organizations'
   end
