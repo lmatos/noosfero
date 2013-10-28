@@ -17,3 +17,7 @@
   padding-right: 15px;
   background: url(images/arrow-right-p.png) 100% 50% no-repeat;
 }
+
+.clearfix {
+  clear: both;
+}
