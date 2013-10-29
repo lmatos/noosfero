@@ -22,8 +22,8 @@ class MembersBlock < ProfileListBlock
       data = []
 	    data.push(link_to _('View all'), :profile => profile.identifier, :controller => 'profile', :action => 'members')
 
-		  if show_button_block
-		    if logged_in?
+          if show_button_block
+	    if logged_in?
           if profile.members.include?(user)
             data.push(button(:delete, content_tag('span',  __('Leave community')), profile.leave_url,
               :class => 'leave-community',
@@ -58,10 +58,10 @@ class MembersBlock < ProfileListBlock
 
   def options
     data = ["<br />"]
+    data.push "<input type='hidden' value='0' name='block[show_join_leave_button]'/>"
     data.push "<input type='checkbox' value='1' name='block[show_join_leave_button]' id='block_show_join_leave_button' "+check_join_leave_button?+" />"
-    data.push "<label for='block_show_join_leave_button'>"+_("show join leave button")+"</labe>"
-    data.push "<input type='hidden' value='"+save_join_leave_button?+"' name='block[show_join_leave_button]'/>"
-
+    data.push "<label for='block_show_join_leave_button'>"+_("Show join leave button")+"</label>"
+   
     data
   end
 
@@ -76,14 +76,6 @@ class MembersBlock < ProfileListBlock
         "checked='checked'"
       else
         ""
-      end
-    end
-
-    def save_join_leave_button?
-      if show_join_leave_button
-        "0"
-      else
-        "1"
       end
     end
 end

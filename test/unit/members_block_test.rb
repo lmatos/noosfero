@@ -42,9 +42,9 @@ class MembersBlockTest < ActiveSupport::TestCase
     block = MembersBlock.new
 
     assert_equal "<br />", block.options[0]
-    assert block.options[1].include? "input type='checkbox'"
-    assert block.options[2].include? "label for"
-    assert block.options[3].include? "input type='hidden'"
+    assert block.options[1].include? "input type='hidden'"
+    assert block.options[2].include? "input type='checkbox'"
+    assert block.options[3].include? "label for"
   end
 
   should "check_join_leave_button? return checked if show_join_leave_button is true" do
@@ -59,20 +59,6 @@ class MembersBlockTest < ActiveSupport::TestCase
     block.show_join_leave_button = false
     
     assert_equal "", block.send(:check_join_leave_button?)
-  end
-
-  should "save_join_leave_button? return 1 if show_join_leave_button is false" do
-    block = MembersBlock.new
-    block.show_join_leave_button = false
-    
-    assert_equal "1", block.send(:save_join_leave_button?)
-  end
-
-  should "save_join_leave_button? return 0 if show_join_leave_button is true" do
-    block = MembersBlock.new
-    block.show_join_leave_button = true
-    
-    assert_equal "0", block.send(:save_join_leave_button?)
   end
 
   should "footer has only 'View all' if show_join_leave_button is false" do
