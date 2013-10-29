@@ -18,7 +18,7 @@ Feature:
     And I go to sample-community's control panel
     And I follow "Edit sideboxes"
     And I follow "Edit" within ".members-block"
-    And I check "show join leave button"
+    And I check "Show join leave button"
     And I press "Save"
 
   Scenario: a user can join in a community by members block's button 
@@ -43,4 +43,3 @@ Feature:
     When I go to sample-community's homepage
     And I follow "Join" within ".members-block"
     Then I should see "Username / Email"
-    
