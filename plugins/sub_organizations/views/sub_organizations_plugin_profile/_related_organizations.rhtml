@@ -11,6 +11,7 @@
 <% button_bar(:class => "related-organizations-button-bar") do %>
   <%= button :back, _('Go back'), { :controller => 'profile' } %>
   <%= button :add, __("Add a new #{organization_type}"), :controller => 'sub_organizations_plugin_myprofile', :action => 'index' if logged_in? && user.has_permission?(:edit_profile, profile) && !environment.enabled?("disable_asset_#{organization_type.pluralize}") %>
+  <%= button :view, _('View all'), { :controller => 'sub_organizations_plugin_profile', :action => 'children', :type => organization_type } %>
 <% end %>
 
 </div><!-- fim class="common-profile-list-block" -->
