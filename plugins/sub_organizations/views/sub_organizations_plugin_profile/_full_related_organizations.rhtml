@@ -1,14 +1,17 @@
 <% extend SubOrganizationsPlugin::SearchHelper %>
+<div class="related-organizations-list-block">
+
+  <h1><%= __("#{profile.name}'s sub-#{organization_type.pluralize}") %></h1>
 <ul>
   <% organizations.each do |organization| %>
-    <li class="search-profile-item">
-      <div class="search-enterprise-item">
-        <div class="search-enterprise-item-column-left">
+    <li class="related-organizations-item">
+      <div class="related-organizations-item">
+        <div class="related-organizations-item-column-left">
           <%= profile_image_link organization, :portrait, 'div' %>
         </div>
-        <div class="search-enterprise-item-column-right">
+        <div class="related-organizations-item-column-right">
           <%= link_to_homepage(organization.name, organization.identifier, :class => "search-result-title") %>
-          <div class="search-enterprise-description">
+          <div class="related-organizations-description">
             <% if organization.description %>
               <% body_stripped = strip_tags(organization.description) %>
             <% elsif organization.home_page and organization.home_page.body %>
@@ -16,20 +19,20 @@
             <% end %>
             <%= excerpt(body_stripped, body_stripped.first(3), 200) if body_stripped %>
           </div>
-          <div class="search-enterprise-region">
-            <span class="search-enterprise-region-label"><%= _("City") %></span>
+          <div class="related-organizations-region">
+            <span class="related-organizations-region-label"><%= _("City") %></span>
             <% if organization.region %>
-              <span class="search-enterprise-region-name"><%= city_with_state(organization.region) %></span>
+              <span class="related-organizations-region-name"><%= city_with_state(organization.region) %></span>
             <% elsif organization.city and organization.state %>
-              <span class="search-enterprise-region-name"><%= "#{organization.city}, #{organization.state}" %></span>
+              <span class="related-organizations-region-name"><%= "#{organization.city}, #{organization.state}" %></span>
             <% end %>
           </div>
 
-          <div class="search-enterprise-categorization">
+          <div class="related-organizations-categorization">
             <% organization.top_level_categorization.each do |parent, children| %>
-              <div class="search-enterprise-category-<%=parent.id%> search-enterprise-category">
-                <span class="search-enterprise-categorization-parent"><%= parent.name %></span>
-                <span class="search-enterprise-categorization-children">
+              <div class="related-organizations-category-<%=parent.id%> related-organizations-category">
+                <span class="related-organizations-categorization-parent"><%= parent.name %></span>
+                <span class="related-organizations-categorization-children">
                   <%= children.collect(&:name).join(', ')  %>
                 </span>
               </div>
@@ -43,3 +46,14 @@
     </li>
   <% end %>
 </ul>
+
+<% if @full %>
+    <div id='pagination-related-organizations'>
+      <%= pagination_links (organizations, {:param_name => 'npage', :page_links => true})  %>
+    </div>
+  <% end %>
+
+  <% if !@full %>
+      <%= button :view, _('View all'), { :controller => 'sub_organizations_plugin_profile', :action => 'children', :type => organization_type, :display => 'full'} %>
+    <% end %>
+</div>

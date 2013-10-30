@@ -1,7 +1,21 @@
+<% extend SubOrganizationsPlugin::SearchHelper %>
+
+<div id="search-actions">
+    <%= display_selectors(params[:display]) %>
+</div>
+
 <% if params[:type] != 'enterprise' %>
+  <% if params[:display] == 'full' %>
+  <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @communities, :organization_type => 'community'} %>
+  <% else %>
   <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @communities, :organization_type => 'community'} %>   
+  <% end %>
 <% end %>
 
 <% if params[:type] != 'community' %>
-  <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @enterprises, :organization_type => 'enterprise'} %>
-<% end %>
+  <% if params[:display] == 'full' %>
+  <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @enterprises, :organization_type => 'enterprise'} %>
+  <% else %>
+  <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @enterprises, :organization_type => 'enterprise'} %>   
+  <% end %>
+  <% end %>
