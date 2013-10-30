@@ -7,10 +7,15 @@ class SubOrganizationsPluginProfileController < ProfileController
     children = SubOrganizationsPlugin::Relation.children(profile)
     @communities = children.communities
     @enterprises = children.enterprises
+    @full = true
 
-    unless params[:type]
+    if !params[:type]
       @communities = SubOrganizationsPlugin.limit(@communities)
       @enterprises = SubOrganizationsPlugin.limit(@enterprises)
+      @full = false
+    else
+      @communities = @communities.paginate(:per_page => 12, :page => params[:npage])
+      @enterprises = @enterprises.paginate(:per_page => 12, :page => params[:npage]) 
     end
 
     render 'related_organizations'
