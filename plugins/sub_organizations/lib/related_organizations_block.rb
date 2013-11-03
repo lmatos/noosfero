@@ -1,5 +1,7 @@
 class RelatedOrganizationsBlock < ProfileListBlock
 
+   #include Organization
+
   settings_items :organization_type, :type => :string, :default => 'both'
 
   @display_type = {:title => 'related', :action => 'children' }
@@ -19,9 +21,9 @@ class RelatedOrganizationsBlock < ProfileListBlock
     end
   end
 
-  def help
-    _("This block displays #{@display_type[:title]} organizations of this organization")
-  end
+  #def help
+  #  _("This block displays #{@display_type[:title]} organizations of this organization")
+  #end
 
   def profiles
     organizations = related_organizations
@@ -34,8 +36,12 @@ class RelatedOrganizationsBlock < ProfileListBlock
       organizations
     end
   end
-
-  def footer
+ 
+   def footer
+      if  organizations1.blank?
+	''
+	 #content_tag 'div', _('None')  	
+      else
     profile = self.owner
     type = self.organization_type
     params = {:profile => profile.identifier, :controller => 'sub_organizations_plugin_profile', :action => @display_type[:action]}
@@ -44,6 +50,7 @@ class RelatedOrganizationsBlock < ProfileListBlock
       link_to _('View all'), params.merge(params)
     end
   end
+   end
 
   def related_organizations
     profile = self.owner
@@ -57,4 +64,34 @@ class RelatedOrganizationsBlock < ProfileListBlock
       organizations
     end
   end
-end
+
+
+
+def content(args={})
+      profiles = self.profile_list
+        title = self.view_title
+        nl = "\n"
+        lambda do
+	  count=0
+	  list = profiles.map {|item|
+              count+=1
+            send(:profile_image_link, item, :minor )
+             }.join("\n  ")
+	  if list.empty?
+	    verify = false 
+	     nil
+	  else     
+	    verify = true; 
+	    list = content_tag 'ul', nl +'  '+ list + nl
+	  end
+
+	  if verify == true
+	    block_title(title) + nl +
+	    content_tag('div', nl + list + nl + tag('br', :style => 'clear:both'))
+	  else
+	     block_title('')
+	  end  
+	  
+	  end
+  end  
+end   
