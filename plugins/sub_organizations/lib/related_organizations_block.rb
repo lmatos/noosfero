@@ -6,6 +6,7 @@ class RelatedOrganizationsBlock < ProfileListBlock
 
   @display_type = {:title => 'related', :action => 'children' }
 
+
   def self.description
     __("#{@display_type[:title].capitalize} Organizations")
   end
@@ -37,20 +38,45 @@ class RelatedOrganizationsBlock < ProfileListBlock
     end
   end
  
+def content(args={})
+      profiles = self.profile_list
+        title = self.view_title
+        nl = "\n"
+        lambda do
+	  count=0
+	  list = profiles.map {|item|
+              count+=1
+            send(:profile_image_link, item, :minor )
+             }.join("\n  ")
+	  if list.empty?
+	     @have_sub_groups = false
+	     nil
+	  else     
+	     @have_sub_groups = true
+	    list = content_tag 'ul', nl +'  '+ list + nl
+	  end
+
+	  if @have_sub_groups == true
+	    block_title(title) + nl +
+	    content_tag('div', nl + list + nl + tag('br', :style => 'clear:both'))
+	  else
+	     block_title('')	  
+	  end
+  end  
+end
    def footer
-      if  organizations1.blank?
-	''
-	 #content_tag 'div', _('None')  	
-      else
-    profile = self.owner
-    type = self.organization_type
-    params = {:profile => profile.identifier, :controller => 'sub_organizations_plugin_profile', :action => @display_type[:action]}
-    params[:type] = type if type == 'enterprise' || type == 'community'
-    lambda do
-      link_to _('View all'), params.merge(params)
+      profile = self.owner
+      type = self.organization_type
+      params = {:profile => profile.identifier, :controller => 'sub_organizations_plugin_profile', :action => @display_type[:action]}
+      params[:type] = type if type == 'enterprise' || type == 'community'
+      lambda do
+	if @have_sub_groups == true 
+	  link_to _('View all'),'?type=community', params.merge(params)
+        else
+	  ''
+	end
+      end
     end
-  end
-   end
 
   def related_organizations
     profile = self.owner
@@ -67,31 +93,5 @@ class RelatedOrganizationsBlock < ProfileListBlock
 
 
 
-def content(args={})
-      profiles = self.profile_list
-        title = self.view_title
-        nl = "\n"
-        lambda do
-	  count=0
-	  list = profiles.map {|item|
-              count+=1
-            send(:profile_image_link, item, :minor )
-             }.join("\n  ")
-	  if list.empty?
-	    verify = false 
-	     nil
-	  else     
-	    verify = true; 
-	    list = content_tag 'ul', nl +'  '+ list + nl
-	  end
+end
 
-	  if verify == true
-	    block_title(title) + nl +
-	    content_tag('div', nl + list + nl + tag('br', :style => 'clear:both'))
-	  else
-	     block_title('')
-	  end  
-	  
-	  end
-  end  
-end   
