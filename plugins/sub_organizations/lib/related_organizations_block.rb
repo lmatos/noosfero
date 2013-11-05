@@ -1,7 +1,5 @@
 class RelatedOrganizationsBlock < ProfileListBlock
 
-   #include Organization
-
   settings_items :organization_type, :type => :string, :default => 'both'
 
   @display_type = {:title => 'related', :action => 'children' }
@@ -22,9 +20,9 @@ class RelatedOrganizationsBlock < ProfileListBlock
     end
   end
 
-  #def help
-  #  _("This block displays #{@display_type[:title]} organizations of this organization")
-  #end
+  def help
+    _("This block displays #{@display_type[:title]} organizations of this organization")
+  end
 
   def profiles
     organizations = related_organizations
@@ -71,7 +69,7 @@ end
       params[:type] = type if type == 'enterprise' || type == 'community'
       lambda do
 	if @have_sub_groups == true 
-	  link_to _('View all'),'?type=community', params.merge(params)
+	  link_to _('View all'), params.merge(params)
         else
 	  ''
 	end

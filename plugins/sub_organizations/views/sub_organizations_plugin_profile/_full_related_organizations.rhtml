@@ -1,6 +1,7 @@
 <% extend SubOrganizationsPlugin::SearchHelper %>
 <div class="related-organizations-list-block">
 
+   <% if organizations.length > 0 %>  
   <h1><%= __("#{profile.name}'s sub-#{organization_type.pluralize}") %></h1>
 <ul>
   <% organizations.each do |organization| %>
@@ -44,9 +45,8 @@
 
       </div>
     </li>
-  <% end %>
 </ul>
-
+<%end%>
 <% if @full %>
     <div id='pagination-related-organizations'>
       <%= pagination_links (organizations, {:param_name => 'npage', :page_links => true})  %>
@@ -56,4 +56,6 @@
   <% if !@full %>
       <%= button :view, _('View all'), { :controller => 'sub_organizations_plugin_profile', :action => 'children', :type => organization_type, :display => 'full'} %>
     <% end %>
-</div>
+ </div>
+ 
+  <% end %>
