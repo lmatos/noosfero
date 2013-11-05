@@ -4,3 +4,4 @@
 <%= render :partial => 'general_fields' %>
 
 <%= labelled_form_field(_('Description:'), text_area(:article, :body, :rows => 3, :cols => 64)) %>
+<%= labelled_check_box(_('Publish submissions'), 'article[publish_submissions]', true, @article.publish_submissions) %>

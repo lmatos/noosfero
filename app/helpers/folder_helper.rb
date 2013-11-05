@@ -72,10 +72,7 @@ module FolderHelper
         radio_button(:article, :published, false) +
           content_tag('label', _('Private'), :for => 'article_published_false')
        )
-     ) +
-    content_tag('div',
-      hidden_field_tag('article[accept_comments]', 0)
-    )
+     )
   end
 
   def cms_label_for_new_children
