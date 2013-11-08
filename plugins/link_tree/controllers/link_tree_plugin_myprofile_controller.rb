@@ -1,0 +1,3 @@
+class LinkTreePluginMyprofileController < MyprofileController
+
+end
