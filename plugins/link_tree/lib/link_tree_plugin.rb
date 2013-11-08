@@ -17,6 +17,6 @@ class LinkTreePlugin < Noosfero::Plugin
   end
   
   def stylesheet?
-    false
+    true
   end
 end

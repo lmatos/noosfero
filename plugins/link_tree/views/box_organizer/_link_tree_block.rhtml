@@ -1,5 +1,21 @@
-<div> A B C</div>
-<% @block.links.each do |link| %>
-  <%= Epa epa epa%>
-<% end %>
+
+<div class="edit-controls">
+  <table>
+    <caption><%= _('Editar link') %></caption>
+    <th><%= _('Icon') %></th> <th><%= _('Title') %></th> <th><%= _('Address') %></th> <th><%= _('Target') %></th>
+    <tr>
+      <td><%= icon_selector('ok') %></td>
+      <td><input type="text" ></td>
+      <td><input type="text" ></td>
+      <td><select> <option value="1">Blank</option> <option value="2">New Window</option><option value="3">New Tab</option></select></td>
+    </tr>
+  </table>
+  
+  <div> <a class="button icon-add with-text" href="#"><%= _('New link') %></a> </div>
+</div>
+
+<div>
+  <%= @block.content_for_edit %>
+  <!-- Renderizar o bendito aqui -->
+</div>
 
