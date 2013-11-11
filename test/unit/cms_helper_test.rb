@@ -15,13 +15,6 @@ class CmsHelperTest < ActiveSupport::TestCase
     assert_match /id="article_accept_comments" name="article\[accept_comments\]" type="checkbox" value="1"/, result
   end
 
-  should 'show custom options for blog' do
-    CmsHelperTest.any_instance.stubs(:controller).returns(ActionController::Base.new)
-    result = options_for_article(Blog.new)
-    assert_tag_in_string result, :tag => 'input', :attributes => { :name => 'article[published]' , :type => "hidden", :value => "1" }
-    assert_tag_in_string result, :tag => 'input', :attributes => { :name => "article[accept_comments]", :type => "hidden", :value => "0" }
-  end
-
   should 'display link to folder content if article is folder' do
     profile = fast_create(Profile)
     folder = fast_create(Folder, :name => 'My folder', :profile_id => profile.id)
