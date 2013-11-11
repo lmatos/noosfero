@@ -1,0 +1,4 @@
+<% form_for :environment, :url => {:action => 'import_data'}, :html => {:method => 'post'} do |f| %>
+    <p><%= file_field_tag('file') %></p>
+    <%= submit_button 'save', _('Import'), :cancel => {:controller => 'plugins'} %>
+<% end %>
