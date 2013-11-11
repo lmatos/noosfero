@@ -19,4 +19,8 @@ class LinkTreePlugin < Noosfero::Plugin
   def stylesheet?
     true
   end
+  
+  def js_files
+    ['javascripts/script.js']
+  end
 end

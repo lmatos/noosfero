@@ -1,21 +1,12 @@
+<div class="preview">
+  <div style='display:none' id='display-icons'>
+  <%= icon_selector('icon-add') %>
+  </div>
+  <div id="title" width="300px"><%= _('Link tree preview') %></div>
+  <%= link_to_function(_('New link'), "add_root()", :id=>'new-link' ,:class => 'button icon-add with-text') %>
 
-<div class="edit-controls">
-  <table>
-    <caption><%= _('Editar link') %></caption>
-    <th><%= _('Icon') %></th> <th><%= _('Title') %></th> <th><%= _('Address') %></th> <th><%= _('Target') %></th>
-    <tr>
-      <td><%= icon_selector('ok') %></td>
-      <td><input type="text" ></td>
-      <td><input type="text" ></td>
-      <td><select> <option value="1">Blank</option> <option value="2">New Window</option><option value="3">New Tab</option></select></td>
-    </tr>
-  </table>
-  
-  <div> <a class="button icon-add with-text" href="#"><%= _('New link') %></a> </div>
+  <form id="link_tree_form" name="link_tree_form" method="post">
+    <div id="preview-tree">
+    </div>
+  </form>
 </div>
-
-<div>
-  <%= @block.content_for_edit %>
-  <!-- Renderizar o bendito aqui -->
-</div>
-

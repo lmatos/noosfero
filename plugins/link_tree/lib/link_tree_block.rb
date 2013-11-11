@@ -58,27 +58,29 @@ class LinkTreeBlock < Block
     if links.empty?
       _('Please edit this block and add some links.')
     else
-      tree = "<ul>"
-      links.each do |link|
-        tree += link_content(link)
-      end
-      tree += "</ul>"
+      "There are #{links.size} links"
+#      tree = "<ul>"
+#      links.each do |link|
+#        tree += link_content(link)
+#      end
+#      tree += "</ul>"
     end
   end
   
-  private 
+#  private 
   
-  def link_content(link)
-   
-    if link.has_children?
-      tree = "<ul>" + content_tag('a',link.sanitize)
-      link.children.each do |child|
-        tree += link_content(child)
-      end
-      tree += "</ul>"
-    else
-      content_tag('li', content_tag('a', link.sanitize))
-    end
-  end
+  
+#  def link_content(link)
+#   
+#    if link.has_children?
+#      tree = "<ul>" + content_tag('a',link.sanitize)
+#      link.children.each do |child|
+#        tree += link_content(child)
+#      end
+#      tree += "</ul>"
+#    else
+#      content_tag('li', content_tag('a', link.sanitize))
+#    end
+#  end
   
 end

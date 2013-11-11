@@ -1,4 +1,27 @@
-.edit-controls caption {
-  font-size: 14pt;
-  color: red;
+#preview-tree {
+  width: 800px;
+  height: 100%;
+  
+  position: relative;
 }
+#preview-tree span {
+  cursor : pointer;
+  border: solid 1px #BBB;
+} 
+#preview-tree .controls {
+  float: right;
+  display: none;
+}
+
+#preview-tree li {
+  list-style: none;
+}
+
+#preview-tree li input  {
+  float: left;
+}
+
+#preview-tree li:hover .controls {
+  display: block;
+}
+
