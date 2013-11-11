@@ -36,6 +36,50 @@
     <%= options_for_article(@article) %>
   </div>
 
+  <% if @profile.community? %>
+    <div id="text-input-search-allowed-users">
+    <p>
+      <%= _('Fill in the search field to add the exception users to see this content') %>
+    </p>
+
+    <%= token_input_field_tag(:q, 'search-allowed-users', {:action => 'search_allowed_users'}, 
+      { :focus => true,
+        :hint_text => _('Type in a search term for a user'),
+        :pre_populate => @tokenized_children}) %>
+    </div>
+
+    <script type="text/javascript">
+    jQuery(document).ready(function(){
+      (function($){
+        function show_hide_text_area(){
+          if( $($("input[name='article[published]']")[1]).attr('checked') )
+            $("#text-input-search-allowed-users").css('display', 'block');
+          else
+            $("#text-input-search-allowed-users").css('display', 'none');
+        }
+
+        show_hide_text_area();
+
+        //Check the private radio button
+        $("#label_private").click(function(){
+          $($("input[name='article[published]']")[1]).attr('checked', true);
+          show_hide_text_area();
+        });
+
+        //Check the private radio button
+        $("#label_private").ready(function(){
+          show_hide_text_area();
+        });
+
+        //Hide / Show the text area
+        $("input[name='article[published]']").click(function(){
+          show_hide_text_area();
+        });
+      })(jQuery);
+    });
+    </script>
+  <% end %>
+
   <% button_bar do %>
     <%= submit_button :save, _('Save') %>
     <% if @back_to %>
@@ -54,3 +98,4 @@
 <% end %>
 
 <br style='clear: both'/>
+

@@ -10,7 +10,7 @@ module ArticleHelper
            ) +
       content_tag('div',
         radio_button(:article, :published, false) +
-          content_tag('label', _('Private'), :for => 'article_published_false')
+          content_tag('label', _('Private'), :for => 'article_published_false', :id => "label_private")
        )
      ) +
     content_tag('h4', _('Options')) +
@@ -51,6 +51,10 @@ module ArticleHelper
         content_tag('label', _('I want this article to display the number of hits it received'), :for => 'article_display_hits')
       ) : '')
     )
+  end
+
+  def prepare_to_token_input(array)
+    array.map { |object| {:id => object.id, :name => object.name} }
   end
 
   def cms_label_for_new_children
