@@ -13,6 +13,6 @@
 <% else %>
 	<p><%= @page.terms_of_use %></p>
 
-	<%= button "save", "Accept", "#" %>
+	<%= button "save", "Accept", :controller => 'cms', :action => 'forum_agreement', :article => @page, :user => user %>
 	<%= button "cancel", "Cancel", profile.url %>
 <% end %>
