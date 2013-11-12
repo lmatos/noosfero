@@ -379,6 +379,5 @@ class CmsController < MyProfileController
   def content_editor?
     true
   end
-
 end
 

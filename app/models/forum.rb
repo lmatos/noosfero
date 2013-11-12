@@ -3,6 +3,10 @@ class Forum < Folder
   acts_as_having_posts :order => 'updated_at DESC'
   include PostsLimit
 
+  settings_items :terms_of_use, :type => :string, :default => ""
+  settings_items :has_terms_of_use, :type => :boolean, :default => false
+  settings_items :users_with_agreement, :type => Array, :default => []
+
   def self.type_name
     _('Forum')
   end
