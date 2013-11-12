@@ -296,6 +296,13 @@ class CmsController < MyProfileController
     render :text => article_list_to_json(files_uploaded), :content_type => 'text/plain'
   end
 
+  def forum_agreement
+    # puts "="*80, article.url, "="*80
+    @forum = Article.find_by_id params[:article]
+    @forum.users_with_agreement << user.id
+    redirect_to :controller => 'content_viewer', :profile => @forum, :action => 'view_page'
+  end
+
   protected
 
   include CmsHelper
@@ -379,5 +386,7 @@ class CmsController < MyProfileController
   def content_editor?
     true
   end
+
+
 end
 
