@@ -1,4 +1,7 @@
-<% form_for :environment, :url => {:action => 'import_data'}, :html => {:method => 'post'} do |f| %>
-    <p><%= file_field_tag('file') %></p>
-    <%= submit_button 'save', _('Import'), :cancel => {:controller => 'plugins'} %>
-<% end %>
+<h1>File Upload</h1>
+<%= form_tag ({:action => 'import_data'}, 
+                        :multipart => true) %>
+<p><label for="upload_file">Select File</label> : 
+<%= file_field 'upload', 'datafile' %></p>
+<%= submit_tag "Upload" %>
+
