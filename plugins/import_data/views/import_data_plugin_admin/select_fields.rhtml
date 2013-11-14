@@ -3,19 +3,20 @@
 	<span>CSV fields:&nbsp</span>
 	<span>Enterprise fields:</span>
 </div>
-<%= form_tag ({:action => 'confirm_fields'}, :multipart => true) %>
+
+<% values = Enterprise.new.attributes.keys %>
+
+<% form_tag(:action => 'confirm_fields') do%>
 	<% @csv['header'].each do |item| %>
 		<div>
-			<%= item %>:  
-			<select name="<%= item %>">
-				<% Enterprise.new.attributes.each do |field| %>
-					<option> <%= field %> </option>
-				<% end %>
-				<option> none </option>
-			</select>
+			<%= labelled_form_field( item,
+					select_tag("relations[#{item}]",
+						options_for_select(values)
+					)
+				)%>
 		</div>
 	<% end %>
-<%= submit_tag _("Continue") %>
-
+	<%= submit_tag _("Continue") %>
+<% end %>
 
 

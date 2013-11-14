@@ -18,11 +18,27 @@ class ImportDataPluginAdminController < AdminController
   end
 
   def confirm_fields
-    @relation = {}
-    params.each do |item|
-      @relation[item] = params[item]
+    @relations = {}
+    params[:relations].keys.each do |key|
+      @relations[key] = params[:relations][key]
     end
     render 'confirm_fields'
+  end
+
+  def perform_migration
+      
+      @csv["rows"].each do |row|
+        index = 0
+        e = Enterprise.new
+        @csv["header"].each do |csv_field|
+          e.attributes[relations[csv_field]] =  row[index]
+          e.identifier = 54
+          index +=1 
+        end
+        e.save
+        render :text => "re2323sult", :success => true
+      end
+  
   end
 
 end
