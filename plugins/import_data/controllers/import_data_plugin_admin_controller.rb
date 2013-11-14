@@ -17,5 +17,13 @@ class ImportDataPluginAdminController < AdminController
     render 'select_fields'
   end
 
+  def confirm_fields
+    @relation = {}
+    params.each do |item|
+      @relation[item] = params[item]
+    end
+    render 'confirm_fields'
+  end
+
 end
 

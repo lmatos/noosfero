@@ -1,0 +1,11 @@
+<h1>Confirm Fields</h1>	
+<div>
+	<table>
+		<% @relation.each do |field| %>
+			<tr>
+				<td> <%= field %> </td>
+				<td> <%= @relation[field] %> </td>
+			</tr>
+		<% end %>
+	</table>	
+</div>

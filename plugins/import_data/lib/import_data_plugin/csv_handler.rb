@@ -4,7 +4,7 @@ class ImportDataPlugin::CSVHandler
 
   def parse(content)
       csv = {}
-      reader = CSV.parse(content)
+      reader = CSV.parse(content, ';')
       
       csv['header'] = reader.shift
       csv['rows'] = []
