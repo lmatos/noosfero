@@ -1,5 +1,5 @@
 <% add_rss_feed_to_head(@page.name, @page.feed.url) if @page.forum? && @page.feed %>
-
+<% puts "="*80, @page.users_with_agreement,"="*80 %>
 <% if (not @page.has_terms_of_use) or (@page.users_with_agreement.include?(user.id)) %>
 <div>
   <div class='forum-description'>
