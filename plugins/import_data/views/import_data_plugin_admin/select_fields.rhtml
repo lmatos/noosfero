@@ -4,8 +4,8 @@
 	<span>Enterprise fields:</span>
 </div>
 
-<% values = Enterprise.new.attributes.keys %>
-
+<% values = [""] %>
+<% values += Enterprise.new.attributes.keys %>
 <% form_tag(:action => 'confirm_fields') do%>
 	<% @csv['header'].each do |item| %>
 		<div>
@@ -18,5 +18,4 @@
 	<% end %>
 	<%= submit_tag _("Continue") %>
 <% end %>
-
 

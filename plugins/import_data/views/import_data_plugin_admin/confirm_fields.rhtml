@@ -6,6 +6,7 @@
 				<tr>
 					<td> <%= field %> </td>
 					<td> <%= @relations[field] %> </td>
+					<%= hidden_field_tag "relations[#{field}]", @relations[field] %>
 				</tr>
 			<% end %>
 		</table>
