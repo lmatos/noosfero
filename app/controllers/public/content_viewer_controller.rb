@@ -8,6 +8,11 @@ class ContentViewerController < ApplicationController
   def view_page
     path = params[:page].join('/')
 
+    if !params[:terms].nil?
+      handle_forum(params[:page], user)
+      redirect_to :profile => params[:profile], :page => params[:page], :action => 'view_page'
+    end
+
     if path.blank?
       @page = profile.home_page
       if @page.nil?
@@ -15,6 +20,11 @@ class ContentViewerController < ApplicationController
         return
       end
     else
+      
+      if !handle_forum_topic(params[:page], user)
+        redirect_to :profile => params[:profile], :page => params[:page].first, :action => 'view_page'
+      end
+
       @page = profile.articles.find_by_path(path)
       unless @page
         page_from_old_path = profile.articles.find_by_old_path(path)
@@ -118,6 +128,23 @@ class ContentViewerController < ApplicationController
   end
 
   protected
+
+  def handle_forum(page, user)
+    forum = Article.find(:first, :conditions => ["slug = ?", page.last])
+    forum.users_with_agreement += [user.id]
+    forum.save
+  end
+
+  def handle_forum_topic(page, user)
+    article = Article.find(:first, :conditions => [ "slug = ?",page.last])
+    if article && article.parent_id
+      parent = Article.find(article.parent_id)
+      if parent.type == 'Forum' && parent.has_terms_of_use && !parent.users_with_agreement.include?(user.id)
+        return false
+      end
+    end
+    return true
+  end
 
   def per_page
     12
