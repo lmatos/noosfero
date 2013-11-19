@@ -296,15 +296,6 @@ class CmsController < MyProfileController
     render :text => article_list_to_json(files_uploaded), :content_type => 'text/plain'
   end
 
-  def forum_agreement
-    forum = Article.find(params[:article])
-    profile = forum.profile
-    forum.users_with_agreement += [user.id]
-    forum.save
-
-    redirect_to :controller => 'content_viewer', :profile => profile.name.to_slug, :page => forum.name.to_slug, :action => 'view_page'
-  end
-
   protected
 
   include CmsHelper
