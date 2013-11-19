@@ -1,3 +1,4 @@
+
 class ImportDataPlugin < Noosfero::Plugin
 
   def self.plugin_name
@@ -5,7 +6,11 @@ class ImportDataPlugin < Noosfero::Plugin
   end
 
   def self.plugin_description
-    _("A plugin that allows import CSV data base.")
+    _("A plugin that allows import CSV database.")
+  end
+    
+  def js_files
+    ['javascripts/script.js']
   end
 
 end

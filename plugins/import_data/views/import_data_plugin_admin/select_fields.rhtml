@@ -1,0 +1,23 @@
+<h1>Relate CSV fields with Enterprise attributes</h1>	
+<div>
+	<span>CSV fields:&nbsp</span>
+	<span>Enterprise fields:</span>
+</div>
+
+<% values = [""] %>
+<% options = [""] %>
+<% options += Enterprise.new.attributes.keys %> 
+<% values += Enterprise.new.attributes.keys.map do |key| key == 'identifier' || key == 'name' ? key + '*' : key ; end %>
+<% form_tag(:action => 'confirm_fields') do%>
+	<% @csv['header'].each do |item| %>
+		<div>
+			<%= labelled_form_field( item,
+					select_tag("relations[#{item}]",
+						options_for_select(Hash[values.zip(options)])
+					)
+				)%>
+		</div>
+	<% end %>
+	<%= submit_tag _("Continue"), :id=>"relations_button" %>
+	<div id="error_mensage" style="margin-top: 10px; display:none; border:solid 1px red; padding: 5px"></div>
+<% end %>

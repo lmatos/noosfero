@@ -1,0 +1,15 @@
+<h1>Confirm Fields</h1>	
+<div>
+	<% form_tag(:action => 'perform_migration') do%>
+		<table>
+			<% @relations.keys.each do |field| %>
+				<tr>
+					<td> <%= field %> </td>
+					<td> <%= @relations[field] %> </td>
+					<%= hidden_field_tag "relations[#{field}]", @relations[field] %>
+				</tr>
+			<% end %>
+		</table>
+	<%= submit_tag _("Continue") %>
+	<% end %>
+</div>

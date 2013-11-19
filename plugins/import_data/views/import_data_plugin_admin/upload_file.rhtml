@@ -1,0 +1,10 @@
+<h1>File Upload</h1>
+<%= form_tag ({:action => 'select_fields'}, :multipart => true) %>
+<%= labelled_form_field( _('Select file:'), file_field('upload', :csv, :accept => 'text/csv') ) %>
+<%= labelled_form_field( _('Separator:'),
+      select_tag("separator",
+          options_for_select( {_('Comma') => 'comma', _('Semicolon') => 'semicolon', _('Space') => 'space'})
+      )
+    ) %>
+<%= submit_tag _("Upload") %>
+
