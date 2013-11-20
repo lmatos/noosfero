@@ -48,6 +48,7 @@ class ImportDataPluginAdminController < AdminController
 
         @csv["header"].each do |csv_field|
           unless @relations[csv_field].to_s.empty?
+            puts "="*80, row[index].to_s.nil?, "="*80
             if @relations[csv_field].to_s == "identifier"
               e[@relations[csv_field].to_s] = row[index].to_s.to_slug
             else 

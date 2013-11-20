@@ -2,12 +2,12 @@
   $(document).ready(function(){
     $("#relations_button").click(function(){
       var selects = $("form select");
-      var must_have = ["name","identifier"]; 
+      var must_have = ["identifier", "name"]; 
       
       for(var i = 0; i < selects.length; i++) {
         for(var j = 0; j < must_have.length; j++) {
           if( selects[i].value == must_have[j] )
-            must_have.shift(j);
+            must_have.splice(j, 1);
         }
       }
       

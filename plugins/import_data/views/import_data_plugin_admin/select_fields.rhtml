@@ -1,6 +1,6 @@
 <h1>Relate CSV fields with Enterprise attributes</h1>	
 <div>
-	<span>CSV fields:&nbsp</span>
+	<span>CSV fields:</span>
 	<span>Enterprise fields:</span>
 </div>
 
@@ -13,7 +13,7 @@
 		<div>
 			<%= labelled_form_field( item,
 					select_tag("relations[#{item}]",
-						options_for_select(Hash[values.zip(options)])
+						options_for_select(Hash[values.zip(options)], :selected => '')
 					)
 				)%>
 		</div>
