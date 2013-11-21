@@ -1,5 +1,5 @@
 <% add_rss_feed_to_head(@page.name, @page.feed.url) if @page.forum? && @page.feed %>
-<% if (not @page.has_terms_of_use) or (@page.users_with_agreement.include?(user.id)) %>
+<% if (not @page.has_terms_of_use) or (user and @page.users_with_agreement.include?(user.id)) %>
 <div>
   <div class='forum-description'>
     <%= @page.body %>
@@ -11,7 +11,11 @@
 </div>
 <% else %>
 	<p><%= @page.terms_of_use %></p>
+	<% if user %>
+		<%= button "save", "Accept", :controller => 'content_viewer', :action => 'view_page', :article => @page, :user => user, :terms => true %>
 
-	<%= button "save", "Accept", :controller => 'content_viewer', :action => 'view_page', :article => @page, :user => user, :terms => true %>
+	<% else %>
+		<%= button "save", "Accept", :controller => 'account', :action => 'login', :return_to => @page.url %>
+	<% end %>
 	<%= button "cancel", "Cancel", profile.url %>
 <% end %>
