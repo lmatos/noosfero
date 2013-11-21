@@ -70,6 +70,52 @@ Feature: forum
     When I follow "Configure forum"
     Then I should be on edit "Forum One" by joaosilva
 
+  @selenium
+  Scenario: show forum with terms of use
+    Given the following forums
+       | owner     | name      |
+       | joaosilva | Forum One |
+    And I go to /joaosilva/forum-one
+    When I follow "Configure forum"
+    And I fill in "Description" with "My description"
+    And I check "Has terms of use:"
+    And I fill in "Terms of use" with "My terms of use"
+    And I press "Save"
+    Then I should see "My terms of use"
+    And I should not see "My description"
+
+  @selenium
+  Scenario: accept terms of use of a forum
+    Given the following forums
+       | owner     | name      |
+       | joaosilva | Forum One |
+    And I go to /joaosilva/forum-one
+    When I follow "Configure forum"
+    And I fill in "Description" with "My description"
+    And I check "Has terms of use:"
+    And I fill in "Terms of use" with "My terms of use"
+    And I press "Save"
+    And I follow "Accept"
+    Then I should see "My description"
+    And I should not see "My terms of use"
+
+  @selenium
+  Scenario: redirect user not logged
+    Given the following forums
+       | owner     | name      |
+       | joaosilva | Forum One |
+    And I go to /joaosilva/forum-one
+    When I follow "Configure forum"
+    And I fill in "Description" with "My description"
+    And I check "Has terms of use:"
+    And I fill in "Terms of use" with "My terms of use"
+    And I press "Save"
+    When I follow "Logout"
+    And I go to /joaosilva/forum-one
+    When I follow "Accept"
+    And I should see "Login" within ".login-box"
+
+  @selenium
   Scenario: last topic update by unautenticated user should not link
     Given the following forums
        | owner     | name |
