@@ -8,32 +8,32 @@ class ImportDataPluginAdminController < AdminController
   SEPARATORS = { 'semicolon' => ';', 'comma' => ',', 'space' => ' '}
 
   ENTERPRISE_KEYS = {
-    "name" => _("Name"),
-    "contact_phone" => _("Contact phone"),
-    "identifier" => _("Identifier"),
-    "address" => _("Adress"), 
+     _("Name")          => "name",
+     _("Contact phone") => "contact_phone",
+     _("Identifier")    => "identifier",
+     _("Adress")        => "address"
   }
   
   ENTERPRISE_DATA_KEYS = {
-    "economic_activity" => _("Economic activity"),
-    "historic_and_current_context" => _("Historic and current context"),
-    "state" => _("State"),
-    "foundation_year" => _("Foundation year"),
-    "legal_form" => _("Legal form"),
-    "activities_short_description" => _("Activities short description"),
-    "contact_email" => _("Contact email"),
-    "zip_code" => _("ZIP"),
-    "district" => _("District"),
-    "display_name" => _("Display name"),
-    "description" => _("Description"),
-    "acronym" => _("Acronym"),
-    "city" => _("City"),
-    "address_reference" => _("Address reference"),
-    "country" => _("Country"),
-    "organization_website" => _("Organization website"),
-    "contact_person" => _("Contact person"),
+    _("Economic activity")            => "economic_activity",
+    _("Historic and current context") => "historic_and_current_context",
+    _("State")                        => "state",
+    _("Foundation year")              => "foundation_year",
+    _("Legal form")                   => "legal_form",
+    _("Activities short description") => "activities_short_description",
+    _("Contact email")                => "contact_email",
+    _("ZIP")                          => "zip_code",
+    _("District")                     => "district",
+    _("Display name")                 => "display_name",
+    _("Description")                  => "description",
+    _("Acronym")                      => "acronym",
+    _("City")                         => "city",
+    _("Address reference")            => "address_reference",
+    _("Country")                      => "country",
+    _("Organization website")         => "organization_website",
+    _("Contact person")               => "contact_person"
   }
-  
+    
   def index
     render 'upload_file'
   end
@@ -48,7 +48,8 @@ class ImportDataPluginAdminController < AdminController
     File.open(path_to_sep, "wb") { |f| f.write(SEPARATORS[sep]) }
 
     handler = ImportDataPlugin::CSVHandler.new
-    @csv = handler.parse(path_to_csv, SEPARATORS[sep]) 
+    @csv = handler.parse(path_to_csv, SEPARATORS[sep])
+    @keys = {_('None selected') => 'none'}.merge(ENTERPRISE_KEYS).merge(ENTERPRISE_DATA_KEYS)
 
     render 'select_fields'
   end
@@ -57,7 +58,7 @@ class ImportDataPluginAdminController < AdminController
   def confirm_fields
     @relations = {}
     params[:relations].keys.each do |key|
-      @relations[key] = params[:relations][key]
+      @relations[key] = params[:relations][key] if params[:relations][key] != 'none'
     end
     render 'confirm_fields'
   end
@@ -68,19 +69,27 @@ class ImportDataPluginAdminController < AdminController
     @csv = handler.parse("tmp/import_data.csv",sep)
     @relations = params[:relations]
     @error_log = []
-    begin
+    #begin
       @csv["rows"].each do |row|
         index = 0
         e = Enterprise.new
+        e.data['fields_privacy'] = {}
 
         @csv["header"].each do |csv_field|
           unless @relations[csv_field].to_s.empty?
-            puts "="*80, row[index].to_s.nil?, "="*80
             if @relations[csv_field].to_s == "identifier"
-              e[@relations[csv_field].to_s] = row[index].to_s.to_slug
+              assign_enterprise_field(
+                @relations[csv_field].to_s,
+                e,
+                row[index].to_s.to_slug
+              )
             else 
               t = e[@relations[csv_field].to_s]
-              e[@relations[csv_field].to_s] = t.nil? ? row[index].to_s : t + ' ' + row[index].to_s
+              assign_enterprise_field(
+                @relations[csv_field].to_s,
+                e,
+                (t.nil? ? row[index].to_s : t + ' ' + row[index].to_s)
+              ) 
             end
           end        
           index +=1
@@ -88,18 +97,22 @@ class ImportDataPluginAdminController < AdminController
         e.save
       end
       render "result", :success => true
-    rescue  
-      render "result", :success => false
-    end
+    #rescue  
+    #  render "result", :success => false
+    #end
   end
 
   private
 
   def assign_enterprise_field(field,enterprise,value)
-    if ENTERPRISE_KEYS.include? field
+    value = value.downcase == 'xxx' ? '' : value
+    if ENTERPRISE_KEYS.values.include? field
       enterprise[field] = value
-    elsif ENTERPRISE_DATA_KEYS.include? field
+      puts '='*10, "Assign #{field} = #{value}"
+    elsif ENTERPRISE_DATA_KEYS.values.include? field
+      puts '='*10, "Assign data #{field} = #{value}"
       enterprise.data[field] = value
+      enterprise.data['fields_privacy'][field] = 'public'
     end  
   end
 end
