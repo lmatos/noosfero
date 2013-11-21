@@ -6,6 +6,33 @@ class ImportDataPluginAdminController < AdminController
   append_view_path File.join(File.dirname(__FILE__) + '/../views')
   
   SEPARATORS = { 'semicolon' => ';', 'comma' => ',', 'space' => ' '}
+
+  ENTERPRISE_KEYS = {
+    "name" => _("Name"),
+    "contact_phone" => _("Contact phone"),
+    "identifier" => _("Identifier"),
+    "address" => _("Adress"), 
+  }
+  
+  ENTERPRISE_DATA_KEYS = {
+    "economic_activity" => _("Economic activity"),
+    "historic_and_current_context" => _("Historic and current context"),
+    "state" => _("State"),
+    "foundation_year" => _("Foundation year"),
+    "legal_form" => _("Legal form"),
+    "activities_short_description" => _("Activities short description"),
+    "contact_email" => _("Contact email"),
+    "zip_code" => _("ZIP"),
+    "district" => _("District"),
+    "display_name" => _("Display name"),
+    "description" => _("Description"),
+    "acronym" => _("Acronym"),
+    "city" => _("City"),
+    "address_reference" => _("Address reference"),
+    "country" => _("Country"),
+    "organization_website" => _("Organization website"),
+    "contact_person" => _("Contact person"),
+  }
   
   def index
     render 'upload_file'
@@ -64,6 +91,16 @@ class ImportDataPluginAdminController < AdminController
     rescue  
       render "result", :success => false
     end
+  end
+
+  private
+
+  def assign_enterprise_field(field,enterprise,value)
+    if ENTERPRISE_KEYS.include? field
+      enterprise[field] = value
+    elsif ENTERPRISE_DATA_KEYS.include? field
+      enterprise.data[field] = value
+    end  
   end
 end
 
