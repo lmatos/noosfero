@@ -32,11 +32,11 @@ class ImportDataPluginAdminController < AdminController
     _("Country")                      => "country",
     _("Organization website")         => "organization_website",
     _("Contact person")               => "contact_person",
-    _("Description")		      => "description",
+    _("Description")		              => "description",
     _("Management information")	      => "management_information",
-    _("Tag list")		      => "tag_list",
-    _("Template id")		      => "template_id",
-    _("Business name")		      => "business_name",
+    _("Tag list")		                  => "tag_list",
+    _("Template id")		              => "template_id",
+    _("Business name")		            => "business_name",
   }
     
   def index
