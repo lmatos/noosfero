@@ -79,9 +79,8 @@ Feature: forum
     When I follow "Configure forum"
     And I fill in "Description" with "My description"
     And I check "Has terms of use:"
-    And I fill in "Terms of use" with "My terms of use"
     And I press "Save"
-    Then I should see "My terms of use"
+    Then I should see "Accept"
     And I should not see "My description"
 
   @selenium
@@ -93,11 +92,10 @@ Feature: forum
     When I follow "Configure forum"
     And I fill in "Description" with "My description"
     And I check "Has terms of use:"
-    And I fill in "Terms of use" with "My terms of use"
     And I press "Save"
     And I follow "Accept"
     Then I should see "My description"
-    And I should not see "My terms of use"
+    And I should not see "Accept"
 
   @selenium
   Scenario: redirect user not logged
@@ -108,7 +106,6 @@ Feature: forum
     When I follow "Configure forum"
     And I fill in "Description" with "My description"
     And I check "Has terms of use:"
-    And I fill in "Terms of use" with "My terms of use"
     And I press "Save"
     When I follow "Logout"
     And I go to /joaosilva/forum-one
