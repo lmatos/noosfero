@@ -111,6 +111,11 @@ class ContentViewerController < ApplicationController
     @comments = @plugins.filter(:unavailable_comments, @comments)
     @comments_count = @comments.count
     @comments = @comments.without_reply.paginate(:per_page => per_page, :page => params[:comment_page] )
+    
+    @comment_mode = params[:comment_mode].nil? ? 'oldest' : params[:comment_mode]
+    if @comment_mode == 'newest'
+      @comments = @comments.reverse
+    end
 
     if params[:slideshow]
       render :action => 'slideshow', :layout => 'slideshow'

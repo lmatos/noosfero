@@ -98,6 +98,12 @@
     <%= link_to(_('Post a comment'), '#', :class => 'display-comment-form', :id => 'top-post-comment-button', :onclick => "jQuery('#page-comment-form .display-comment-form').first().click();") %>
   <% end %>
 
+  <div class="comment-order">
+    <% form_tag({:controller => 'content_viewer' , :action => 'view_page'}, {:method => 'post'}) do %>
+      <%= select_tag 'comment_mode', options_for_select({ _('Newest first') => 'newest', _('Oldest first') => 'oldest'}, @comment_mode), { :onchange => "this.form.submit()"} %>
+    <% end %>
+  </div>
+
   <ul class="article-comments-list">
     <%= render :partial => 'comment/comment', :collection => @comments %>
     <%= pagination_links @comments, :param_name => 'comment_page' %>
