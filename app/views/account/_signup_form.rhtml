@@ -183,3 +183,10 @@ jQuery(function($) {
   });
 });
 </script>
+
+<%= javascript_include_tag 'form_extras.js' %>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  show_remaining_characters("profile_data_description" , 550);
+});
+</script>

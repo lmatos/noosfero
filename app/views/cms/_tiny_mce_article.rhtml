@@ -9,3 +9,8 @@
   <%= render :partial => 'translatable' %>
   <%= render :partial => 'shared/lead_and_body', :locals => {:tiny_mce => true} %>
 </div>
+
+<%= javascript_include_tag "form_extras.js" %>
+<script type="text/javascript">
+  show_remaining_characters("article_name", 150);
+</script>

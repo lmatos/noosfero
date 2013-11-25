@@ -74,3 +74,12 @@
 <% end %>
 
 <%# = generate_form :info, @info, {...} %>
+<%= javascript_include_tag 'form_extras.js' %>
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    // Set max length to profile descripton
+    show_remaining_characters("profile_data_description" , 550);
+
+    show_remaining_characters("profile_data_management_information" , 550);
+  });
+</script>
