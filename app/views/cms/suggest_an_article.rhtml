@@ -27,3 +27,14 @@
     <%= button :cancel, _('Cancel'), @back_to %>
   <% end %>
 <% end %>
+
+<%= javascript_include_tag 'form_extras.js' %>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  show_remaining_characters("task_article_name" , 150, "<%=_('Remaining Characters:')%>");
+  show_remaining_characters("task_source_name" , 150, "<%=_('Remaining Characters:')%>");
+  show_remaining_characters("task_source" , 150, "<%=_('Remaining Characters:')%>");
+  show_remaining_characters("task_name" , 150, "<%=_('Remaining Characters:')%>");
+  show_remaining_characters("task_email" , 150, "<%=_('Remaining Characters:')%>");
+});
+</script>

@@ -78,8 +78,7 @@
 <script type="text/javascript">
   jQuery(document).ready(function(){
     // Set max length to profile descripton
-    show_remaining_characters("profile_data_description" , 550);
-
-    show_remaining_characters("profile_data_management_information" , 550);
+    show_remaining_characters("profile_data_description" , 550, "<%=_('Remaining Characters:')%>");
+    show_remaining_characters("profile_data_management_information" , 550, "<%=_('Remaining Characters:')%>");
   });
 </script>
