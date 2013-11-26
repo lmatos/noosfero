@@ -7,6 +7,7 @@ Feature: forum
     And the following users
       | login     | name       |
       | joaosilva | Joao Silva |
+      | mariasilva| Maria Silva|
     And "joaosilva" has no articles
     And I am logged in as "joaosilva"
 
@@ -95,3 +96,35 @@ Feature: forum
        | Post one | joaosilva | Hi all | Hi all |
    When I go to /joaosilva/forum
    Then I should see "Joao" linking to "http://localhost/joaosilva"
+
+  @selenium
+  Scenario: the newest post from a forum should be displayed first.
+      Given the following forums
+       | owner     | name |
+       | joaosilva | Forum |
+    And the following articles
+       | owner     | name | parent |
+       | joaosilva | Post one | Forum |
+    And the following comments
+       | article | author | title | body |
+       | Post one | joaosilva | Hi all | Hi all |
+       | Post one | joaosilva | Hello  | Hello  | 
+   When I go to /joaosilva/forum/post-one
+   And I select "Newest first" from "comment_mode" within ".comment-order"
+   Then I should see "Hello" within ".article-comment"
+
+  @selenium
+  Scenario: the oldest post from a forum should be displayed first.
+      Given the following forums
+       | owner     | name |
+       | joaosilva | Forum |
+    And the following articles
+       | owner     | name | parent |
+       | joaosilva | Post one | Forum |
+    And the following comments
+       | article | author | title | body |
+       | Post one | joaosilva | Hi all | Hi all |
+       | Post one | joaosilva | Hello  | Hello  | 
+   When I go to /joaosilva/forum/post-one
+   And I select "Oldest first" from "comment_mode" within ".comment-order"
+   Then I should see "Hi all" within ".article-comment"
