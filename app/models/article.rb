@@ -469,20 +469,21 @@ class Article < ActiveRecord::Base
 
   def display_unpublished_article_to?(user)
     user == author || allow_view_private_content?(user) || user == profile ||
-    user.is_admin?(profile.environment) || user.is_admin?(profile) || 
-    allowed_users.include?(user.id) || user.id == @profile_id
+    user.is_admin?(profile.environment) || user.is_admin?(profile)
   end
 
   def display_to?(user = nil)
     if published?
       profile.display_info_to?(user)
-    else
-      if !user
+    elsif !user
         false
       else
-        display_unpublished_article_to?(user)
+        if allowed_users.include?(user.id) || user.id == @profile_id
+          profile.display_info_to?(user)
+        else
+          display_unpublished_article_to?(user)
+        end
       end
-    end
   end
 
   def allow_post_content?(user = nil)
