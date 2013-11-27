@@ -53,7 +53,7 @@ class RelatedOrganizationsBlock < ProfileListBlock
       @display_type = {:title => 'sub', :action => 'children'}
       organizations = SubOrganizationsPlugin::Relation.children(profile)
     else
-      @display_type = {:title => 'parents', :action => 'parents' }
+      @display_type = {:title => 'parent', :action => 'parents' }
       organizations
     end
   end
