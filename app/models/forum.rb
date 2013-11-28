@@ -5,7 +5,7 @@ class Forum < Folder
 
   settings_items :terms_of_use, :type => :string, :default => ""
   settings_items :has_terms_of_use, :type => :boolean, :default => false
-  settings_items :users_with_agreement, :type => Array, :default => []
+  has_and_belongs_to_many :users_with_agreement, :class_name => 'Person', :join_table => 'terms_forum_people'
 
   def self.type_name
     _('Forum')
@@ -45,14 +45,15 @@ class Forum < Folder
   end
 
   def add_agreed_user(user)
-    self.users_with_agreement += [user.id]
+    self.users_with_agreement << user
     self.save 
   end
 
   def agrees_with_terms?(user)
     if self.has_terms_of_use
       if user
-        self.users_with_agreement.include? user.id
+        users = self.users_with_agreement.all
+        users.include?(user)
       else
         false
       end
