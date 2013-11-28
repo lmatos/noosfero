@@ -385,6 +385,5 @@ class CmsController < MyProfileController
     true
   end
 
-
 end
 

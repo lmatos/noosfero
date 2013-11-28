@@ -1080,3 +1080,18 @@ jQuery(function($) {
   });
 
 });
+
+function showHideTermsOfUse() {
+  if( jQuery("#article_has_terms_of_use").attr("checked") )
+    jQuery("#text_area_terms_of_use").show();
+  else
+    jQuery("#text_area_terms_of_use").hide();
+}
+
+jQuery(document).ready(function(){
+  showHideTermsOfUse();
+
+  jQuery("#article_has_terms_of_use").click(function(){
+    showHideTermsOfUse();
+  });
+});
