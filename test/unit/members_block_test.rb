@@ -38,29 +38,6 @@ class MembersBlockTest < ActiveSupport::TestCase
     assert_same list, block.profiles
   end
 
-  should "options return br, checkbox, label and hidden" do
-    block = MembersBlock.new
-
-    assert_equal "<br />", block.options[0]
-    assert block.options[1].include? "input type='hidden'"
-    assert block.options[2].include? "input type='checkbox'"
-    assert block.options[3].include? "label for"
-  end
-
-  should "check_join_leave_button? return checked if show_join_leave_button is true" do
-    block = MembersBlock.new
-    block.show_join_leave_button = true
-    
-    assert_equal "checked='checked'", block.send(:check_join_leave_button?)
-  end
-
-  should "check_join_leave_button? does not return checked if show_join_leave_button is false" do
-    block = MembersBlock.new
-    block.show_join_leave_button = false
-    
-    assert_equal "", block.send(:check_join_leave_button?)
-  end
-
   should "footer has only 'View all' if show_join_leave_button is false" do
     env = fast_create(Environment)
     profile = create_user('mytestuser').person

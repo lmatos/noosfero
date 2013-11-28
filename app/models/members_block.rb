@@ -1,5 +1,4 @@
 class MembersBlock < ProfileListBlock
-
   settings_items :show_join_leave_button, :type => :boolean, :default => false
 
   def self.description
@@ -20,14 +19,14 @@ class MembersBlock < ProfileListBlock
 
     lambda do
       data = []
-	    data.push(link_to _('View all'), :profile => profile.identifier, :controller => 'profile', :action => 'members')
+      data.push(link_to _('View all'), :profile => profile.identifier, :controller => 'profile', :action => 'members')
 
-          if show_button_block
-	    if logged_in?
+      if show_button_block
+        if logged_in?
           if profile.members.include?(user)
             data.push(button(:delete, content_tag('span',  __('Leave community')), profile.leave_url,
               :class => 'leave-community',
-	            :title => _("Leave community")))
+              :title => _("Leave community")))
             data.push(button(:add, content_tag('span', __('Join')), profile.join_url,
               :class => 'join-community',
               :title => _("Join community"),
@@ -55,27 +54,4 @@ class MembersBlock < ProfileListBlock
   def profiles
     owner.members
   end
-
-  def options
-    data = ["<br />"]
-    data.push "<input type='hidden' value='0' name='block[show_join_leave_button]'/>"
-    data.push "<input type='checkbox' value='1' name='block[show_join_leave_button]' id='block_show_join_leave_button' "+check_join_leave_button?+" />"
-    data.push "<label for='block_show_join_leave_button'>"+_("Show join leave button")+"</label>"
-   
-    data
-  end
-
-  # DELETE-ME, apenas para testar check_join_leave_button? via console
-  def teste_check
-    check_join_leave_button?
-  end
-
-  private
-    def check_join_leave_button?
-      if show_join_leave_button
-        "checked='checked'"
-      else
-        ""
-      end
-    end
 end
