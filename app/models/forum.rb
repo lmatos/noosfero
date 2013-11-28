@@ -43,4 +43,22 @@ class Forum < Folder
     paragraphs = Hpricot(body).search('p')
     paragraphs.empty? ? '' : paragraphs.first.to_html
   end
+
+  def add_agreed_user(user)
+    self.users_with_agreement += [user.id]
+    self.save 
+  end
+
+  def agrees_with_terms?(user)
+    if self.has_terms_of_use
+      if user
+        self.users_with_agreement.include? user.id
+      else
+        false
+      end
+    else
+      true
+    end
+  end
+
 end
