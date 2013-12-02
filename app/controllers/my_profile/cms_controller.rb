@@ -72,13 +72,11 @@ class CmsController < MyProfileController
     translations if @article.translatable?
     continue = params[:continue]
 
-    if !params[:q].nil?
-      @article.allowed_users = params[:q].split(/,/).map{|n| n.to_i}
-    end
+    @article.allowed_users = params[:q].split(/,/).map{|n| Person.find n.to_i} unless params[:q].nil?
 
     @tokenized_children = prepare_to_token_input(
                             profile.members.map{|m|
-                              m if @article.allowed_users.include?(m.id)
+                              m if @article.allowed_users.include?(m)
                             }.compact
                           )
 
@@ -137,11 +135,12 @@ class CmsController < MyProfileController
     @article.profile = profile
     @article.last_changed_by = user
 
-    @article.allowed_users = params[:q]
     translations if @article.translatable?
 
     continue = params[:continue]
     if request.post?
+      @article.allowed_users = params[:q].split(/,/).map{|n| Person.find n.to_i} unless params[:q].nil? 
+
       if @article.save
         if continue
           redirect_to :action => 'edit', :id => @article
