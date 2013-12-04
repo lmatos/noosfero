@@ -51,7 +51,7 @@
 .related-organizations-list-block .profile_link{
   height: auto !important;
   max-height: none !important;
-  max-width: none !important;  
+  max-width: none !important;
   height: 150px;
   width: 150px;
 }
@@ -62,7 +62,7 @@
 
 .related-organizations-list-block .profile-image img{
   max-height: 150px;
-  max-width: 150px; 
+  max-width: 150px;
 }
 
 
@@ -99,7 +99,7 @@
       -ms-transition: all 0.5s ease-out;
           transition: all 0.5s ease-out;
 }
- 
+
 .related-organizations-list-block .vcard img:hover {
   opacity: 0.5;
 }

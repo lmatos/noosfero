@@ -8,7 +8,7 @@
   <% if params[:display] == 'full' %>
     <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @communities, :organization_type => 'community'} %>
   <% else %>
-    <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @communities, :organization_type => 'community'} %>   
+    <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @communities, :organization_type => 'community'} %>
   <% end %>
 <% end %>
 
@@ -16,6 +16,6 @@
   <% if params[:display] == 'full' %>
     <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @enterprises, :organization_type => 'enterprise'} %>
   <% else %>
-    <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @enterprises, :organization_type => 'enterprise'} %>   
+    <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @enterprises, :organization_type => 'enterprise'} %>
   <% end %>
 <% end %>

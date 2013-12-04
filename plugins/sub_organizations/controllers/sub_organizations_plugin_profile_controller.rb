@@ -15,7 +15,7 @@ class SubOrganizationsPluginProfileController < ProfileController
       @full = false
     else
       @communities = @communities.paginate(:per_page => 12, :page => params[:npage])
-      @enterprises = @enterprises.paginate(:per_page => 12, :page => params[:npage]) 
+      @enterprises = @enterprises.paginate(:per_page => 12, :page => params[:npage])
     end
 
     render 'related_organizations'

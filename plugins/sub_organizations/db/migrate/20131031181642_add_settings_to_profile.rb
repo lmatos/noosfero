@@ -4,6 +4,6 @@ class AddSettingsToProfile < ActiveRecord::Migration
   end
 
   def self.down
-  		remove_column :profiles, :settings
+    remove_column :profiles, :settings
   end
 end
