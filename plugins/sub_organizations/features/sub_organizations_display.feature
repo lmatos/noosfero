@@ -3,7 +3,6 @@ Feature: sub_organizations_display
   I want my organizations to have blocks that lists it's related-organizations
   In order to have quick access to it's related-organizations
 
-
    Background:
    Given "SubOrganizations" plugin is enabled
     And the following users
@@ -79,4 +78,3 @@ Feature: sub_organizations_display
       Given I follow "View all" within ".related-organizations-block"
       Then I should see "sub-communities not created yet"
       And I should see "sub-enterprises not created yet"
-
