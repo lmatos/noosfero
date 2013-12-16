@@ -9,15 +9,19 @@ class SubOrganizationsPluginProfileController < ProfileController
     @enterprises = children.enterprises
     @full = true
 
-    if !params[:type]
+    if !params[:type] and !params[:display]
       @communities = SubOrganizationsPlugin.limit(@communities)
       @enterprises = SubOrganizationsPlugin.limit(@enterprises)
       @full = false
+    elsif !params[:type]
+      @total = @communities.concat(@enterprises)
+      @total = @total.paginate(:per_page => 12, :page => params[:npage])
     else
       @communities = @communities.paginate(:per_page => 12, :page => params[:npage])
       @enterprises = @enterprises.paginate(:per_page => 12, :page => params[:npage])
     end
-
+    
+    @organization_type = params[:type] != "enterprise" ? "community" : "enterprise"
     render 'related_organizations'
   end
 
@@ -36,6 +40,7 @@ class SubOrganizationsPluginProfileController < ProfileController
       @enterprises = @enterprises.paginate(:per_page => 12, :page => params[:npage])
     end
 
+    @organization_type = params[:type] != "enterprise" ? "community" : "enterprise"
     render 'related_organizations'
   end
 

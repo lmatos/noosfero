@@ -6,6 +6,4 @@ require 'noosfero/plugin/mailer_base'
 require 'noosfero/plugin/settings'
 require 'noosfero/plugin/spammable'
 
-Rails::configuration.to_prepare do
-	Noosfero::Plugin.init_system if $NOOSFERO_LOAD_PLUGINS
-end
+Noosfero::Plugin.init_system if $NOOSFERO_LOAD_PLUGINS

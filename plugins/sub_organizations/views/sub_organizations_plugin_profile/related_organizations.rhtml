@@ -4,18 +4,25 @@
   <%= display_selectors(params[:display]) %>
 </div>
 
-<% if params[:type] != 'enterprise' %>
+<% if params[:type] == 'community' %>
   <% if params[:display] == 'full' %>
-    <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @communities, :organization_type => 'community'} %>
+    <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @communities} %>
   <% else %>
-    <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @communities, :organization_type => 'community'} %>
+    <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @communities} %>
   <% end %>
 <% end %>
 
-<% if params[:type] != 'community' %>
+<% if params[:type] == 'enterprise' %>
   <% if params[:display] == 'full' %>
-    <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @enterprises, :organization_type => 'enterprise'} %>
+    <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @enterprises} %>
   <% else %>
-    <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @enterprises, :organization_type => 'enterprise'} %>
+    <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @enterprises} %>
   <% end %>
+<% end %>
+
+<% if params[:display] == "full" and !params[:type] %>
+   <%= render :partial => 'sub_organizations_plugin_profile/full_related_organizations', :locals => {:organizations => @total} %>
+<% elsif !params[:type] %>
+  <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @communities} %>
+  <%= render :partial => 'sub_organizations_plugin_profile/related_organizations', :locals => {:organizations => @enterprises} %>
 <% end %>

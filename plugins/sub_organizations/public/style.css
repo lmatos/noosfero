@@ -60,7 +60,7 @@
   display: none !important;
 }
 
-.related-organizations-list-block .profile-image img{
+.related-organizations-item .profile-image img{
   max-height: 150px;
   max-width: 150px;
 }
